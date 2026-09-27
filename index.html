@@ -42,16 +42,26 @@
   .verse span{display:block;font-family:Inter,system-ui,sans-serif;font-style:normal;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-top:6px}
   .lede{text-wrap:pretty;color:var(--muted);max-width:520px;margin:18px auto 0;font-size:16px}
 
-  /* ---------- verse of the day ---------- */
-  .today{max-width:860px;margin:8px auto 44px;display:grid;grid-template-columns:auto 1fr;gap:clamp(24px,4vw,56px);align-items:center;background:linear-gradient(135deg,#1b1815,#13110f);border:1px solid var(--line);border-radius:28px;padding:clamp(20px,3vw,36px)}
-  .today[hidden]{display:none}
-  .t-img{width:clamp(150px,18vw,230px);aspect-ratio:1320/2868;border-radius:clamp(18px,2.2vw,28px);overflow:hidden;background:var(--bg-2);border:0;padding:0;box-shadow:0 30px 60px -30px #000;display:block}
-  .t-img img{width:100%;height:100%;object-fit:cover;display:block}
-  .t-eyebrow{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);margin:0 0 12px}
-  .t-ref{font-family:"Cormorant Garamond",Georgia,serif;font-weight:600;font-size:clamp(30px,3.6vw,46px);line-height:1.05;margin:0}
-  .t-text{font-family:"Cormorant Garamond",Georgia,serif;font-style:italic;font-size:clamp(19px,1.9vw,24px);color:#d8cfbd;margin:14px 0 22px;max-width:30ch;text-wrap:pretty}
-  .t-actions{display:flex;gap:10px;flex-wrap:wrap}
-  @media (max-width:640px){.today{grid-template-columns:1fr;text-align:center;justify-items:center}.t-img{width:44vw}.t-text{margin-inline:auto}.t-actions{justify-content:center}}
+  /* ---------- verse of the day: a double-size tile at the start of the grid ---------- */
+  .grid .hero{grid-column:span 2;grid-row:span 2;display:flex;flex-direction:column;align-self:stretch;min-width:0}
+  .hero .frame{flex:1 1 0;min-height:0;aspect-ratio:auto;border-radius:calc(var(--radius) + 6px);cursor:pointer;box-shadow:0 0 0 1px rgba(217,165,91,.55),0 30px 70px -30px #000;background:none;border:0;padding:0;width:100%}
+  .hero .frame img{object-position:50% 40%}
+  .hero:hover .frame{transform:translateY(-4px)}
+  .h-meta{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;padding:12px 4px 0}
+  .h-eyebrow{font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin:0 0 2px}
+  .h-ref{font-family:"Cormorant Garamond",Georgia,serif;font-size:22px;font-weight:600;line-height:1.1;margin:0}
+  .h-actions{display:flex;gap:8px;flex:none}
+  .h-btn{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--bg-2);display:grid;place-items:center;padding:0}
+  .h-btn:hover{border-color:var(--accent);color:var(--accent)}
+  .h-btn svg{width:17px;height:17px}
+  .h-btn.sm-label{width:auto;padding:0 14px;border-radius:999px;font-size:13px;gap:6px;display:inline-flex;align-items:center}
+  /* phones: side-by-side inside one full-width row */
+  @media (max-width:520px){
+    .grid .hero{grid-row:span 1;display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:center}
+    .hero .frame{flex:none;aspect-ratio:1320/2868;border-radius:var(--radius)}
+    .h-meta{flex-direction:column;align-items:flex-start;padding:0}
+    .h-ref{font-size:26px}
+  }
 
   /* ---------- themes ---------- */
   .themes{display:flex;flex-wrap:wrap;justify-content:center;gap:6px clamp(14px,2vw,26px);margin:0 auto 30px;max-width:1240px}
@@ -143,19 +153,6 @@
 </header>
 
 <main>
-  <section class="today" id="today" hidden aria-labelledby="tRef">
-    <button class="t-img" id="tOpen" aria-label="Preview verse of the day"><img id="tImg" alt=""></button>
-    <div>
-      <p class="t-eyebrow">Verse of the day · <span id="tDate"></span></p>
-      <h2 class="t-ref" id="tRef"></h2>
-      <p class="t-text" id="tText"></p>
-      <div class="t-actions">
-        <button class="btn primary" id="tSave">Preview &amp; save</button>
-        <button class="btn" id="tShare"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>Send to a friend</button>
-      </div>
-    </div>
-  </section>
-
   <nav class="themes" id="themes" aria-label="Browse by theme"></nav>
   <div class="grid" id="grid"></div>
 </main>
@@ -215,8 +212,8 @@
     newCutoff = dates[0] || '';                 // launch-day wallpapers don't get a "New" badge
     shown = all;
     buildThemes();
-    render();
     showToday();
+    render();
     openFromHash();
   }).catch(() => { grid.innerHTML = '<p class="empty">Couldn’t load wallpapers.json.</p>'; });
 
@@ -252,8 +249,21 @@
   function render() {
     const cutoff = Date.now() - NEW_DAYS * 864e5;
     const cols = getComputedStyle(grid).gridTemplateColumns.split(' ').length || 1;
-    grid.innerHTML = shown.map((w, i) => `
-      <button class="card" data-i="${i}" aria-label="${esc(w.ref)}" style="--d:${(i % cols) * 70}ms">
+    const heroHTML = theme === 'All' && todayW ? `
+      <div class="card hero" style="--d:0ms">
+        <button class="frame" data-hero aria-label="Verse of the day: ${esc(todayW.ref)}. Preview and save">
+          <img src="${todayW.thumb}" srcset="${todayW.thumb} 420w, ${todayW.full} 1320w" sizes="(max-width:520px) 45vw, 34vw" alt="${esc(todayW.text || todayW.ref)}" decoding="async" onload="this.classList.add('loaded')">
+        </button>
+        <div class="h-meta">
+          <div><p class="h-eyebrow">Verse of the day</p><p class="h-ref">${esc(todayW.ref)}</p></div>
+          <div class="h-actions">
+            <button class="h-btn" data-hero aria-label="Preview and save"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg></button>
+            <button class="h-btn" data-hero-share aria-label="Send to a friend"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg></button>
+          </div>
+        </div>
+      </div>` : '';
+    grid.innerHTML = heroHTML + shown.map((w, i) => `
+      <button class="card" data-i="${i}" aria-label="${esc(w.ref)}" style="--d:${((i + (heroHTML ? 2 : 0)) % cols) * 70}ms">
         <div class="frame">
           <img src="${w.thumb}" alt="${esc(w.text || w.ref)}" loading="lazy" decoding="async" onload="this.classList.add('loaded')">
           ${w.added > newCutoff && new Date(w.added).getTime() > cutoff ? '<span class="new">New</span>' : ''}
@@ -264,7 +274,9 @@
     if (io) grid.querySelectorAll('.card').forEach(c => io.observe(c));
   }
   grid.addEventListener('click', e => {
-    const c = e.target.closest('.card'); if (c) open(+c.dataset.i);
+    if (e.target.closest('[data-hero-share]')) return shareLink(todayW, e.target.closest('[data-hero-share]'));
+    if (e.target.closest('[data-hero]')) return openWallpaper(todayW);
+    const c = e.target.closest('.card[data-i]'); if (c) open(+c.dataset.i);
   });
 
   /* ---------- verse of the day ---------- */
@@ -277,19 +289,12 @@
     const gcd = (a, b) => b ? gcd(b, a % b) : a;
     const step = [37, 41, 43, 47, 53, 59, 61].find(p => gcd(p, n) === 1) || 1;
     todayW = all[(day * step) % n];
-    $('tImg').src = todayW.thumb; $('tImg').alt = todayW.text || todayW.ref;
-    $('tRef').textContent = todayW.ref;
-    $('tText').textContent = todayW.text ? `“${todayW.text}”` : '';
-    $('tDate').textContent = d.toLocaleDateString([], {month: 'long', day: 'numeric'});
-    $('today').hidden = false;
   }
   function openWallpaper(w) {
     let i = shown.indexOf(w);
     if (i < 0) { setTheme('All'); i = shown.indexOf(w); }
     open(i);
   }
-  $('tOpen').onclick = $('tSave').onclick = () => todayW && openWallpaper(todayW);
-  $('tShare').onclick = () => todayW && shareLink(todayW, $('tShare'));
 
   /* ---------- viewer ---------- */
   function open(i) {
