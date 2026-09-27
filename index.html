@@ -58,14 +58,61 @@
     .grid .hero{align-self:start}
   }
 
-  /* ---------- themes ---------- */
-  .themes{display:flex;flex-wrap:wrap;justify-content:center;gap:6px clamp(14px,2vw,26px);margin:0 auto 30px;max-width:1240px}
-  .theme{background:none;border:0;padding:6px 2px;font-size:14px;letter-spacing:.03em;color:var(--muted);position:relative}
+  /* ---------- pinned bar: themes, sort, search ---------- */
+  .bar{position:sticky;top:0;z-index:6;margin:0 calc(var(--gutter) * -1) 26px;padding:10px var(--gutter);background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid transparent;transition:border-color .2s}
+  .bar.stuck{border-bottom-color:var(--line)}
+  .bar-in{display:flex;align-items:center;gap:14px}
+  .themes{flex:1;min-width:0;display:flex;flex-wrap:nowrap;gap:0 clamp(14px,1.8vw,24px);overflow-x:auto;scrollbar-width:none;white-space:nowrap;-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent);padding-right:28px}
+  .themes::-webkit-scrollbar{display:none}
+  .theme{flex:none;background:none;border:0;padding:8px 2px;font-size:14px;letter-spacing:.03em;color:var(--muted);position:relative}
   .theme:hover{color:var(--text)}
   .theme[aria-pressed="true"]{color:var(--text)}
-  .theme[aria-pressed="true"]::after{content:"";position:absolute;left:2px;right:2px;bottom:0;height:1.5px;background:var(--accent)}
+  .theme[aria-pressed="true"]::after{content:"";position:absolute;left:2px;right:2px;bottom:2px;height:1.5px;background:var(--accent)}
   .theme .n{font-size:11px;opacity:.55;margin-left:3px}
-  .themes-label{width:100%;text-align:center;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#6f685d;margin-bottom:2px}
+  .theme.fav{color:#d98a7a}
+  .tools{flex:none;display:flex;align-items:center;gap:8px}
+  .sort{appearance:none;-webkit-appearance:none;background:var(--bg-2) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239c9384' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 11px center/13px;border:1px solid var(--line);border-radius:999px;color:var(--text);font:inherit;font-size:13px;padding:8px 32px 8px 14px;cursor:pointer}
+  .sort:hover,.round:hover{border-color:#4a433b}
+  .round{width:37px;height:37px;border-radius:50%;border:1px solid var(--line);background:var(--bg-2);display:grid;place-items:center;padding:0;flex:none}
+  .round svg{width:17px;height:17px}
+  .searchbox{display:none;flex:1;min-width:0;align-items:center;gap:8px}
+  .searchbox input{flex:1;min-width:0;background:var(--bg-2);border:1px solid var(--accent);border-radius:999px;padding:8px 16px;color:var(--text);font:inherit;font-size:15px;outline:none}
+  .searchbox input::placeholder{color:#6f685d}
+  .bar.searching .themes,.bar.searching #searchOpen{display:none}
+  .bar.searching .searchbox{display:flex}
+  @media (max-width:640px){.bar.searching .sort{display:none}.sort{font-size:12px;padding:7px 28px 7px 11px;background-position:right 9px center}}
+
+  /* ---------- new this week row ---------- */
+  .newrow{margin:0 0 34px}
+  .newrow[hidden]{display:none}
+  .row-label{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);margin:0 0 12px}
+  .newrow-list{display:flex;gap:clamp(12px,1.4vw,18px);overflow-x:auto;scrollbar-width:none;padding-bottom:4px}
+  .newrow-list::-webkit-scrollbar{display:none}
+  .mini{flex:none;width:clamp(104px,9vw,140px);background:none;border:0;padding:0;text-align:left}
+  .mini .frame{border-radius:16px}
+  .mini .ref{font-size:15px}
+
+  /* ---------- badges ---------- */
+  .card .frame .badge-new{position:absolute;top:10px;right:10px;background:var(--accent);color:#1b140a;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:4px 8px;border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,.35)}
+  .styles{position:absolute;left:10px;bottom:10px;background:rgba(15,14,12,.74);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:var(--text);font-size:11px;font-weight:500;letter-spacing:.02em;padding:4px 9px;border-radius:999px;display:inline-flex;gap:5px;align-items:center}
+  .styles svg{width:12px;height:12px}
+  .favmark{position:absolute;top:10px;left:10px;width:24px;height:24px;border-radius:50%;background:rgba(15,14,12,.7);display:grid;place-items:center}
+  .favmark svg{width:13px;height:13px;fill:#e08e7b}
+  /* stacked-card edges for verses with several styles */
+  .card.stack .frame{box-shadow:5px -5px 0 -1px #2c2824,10px -10px 0 -2px #1f1c19,0 18px 40px -22px rgba(0,0,0,.9)}
+
+  /* back to top */
+  .totop{position:fixed;right:max(16px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom));z-index:11;width:46px;height:46px;border-radius:50%;border:1px solid var(--line);background:rgba(27,24,21,.92);backdrop-filter:blur(10px);display:grid;place-items:center;padding:0;opacity:0;transform:translateY(10px);pointer-events:none;transition:opacity .3s,transform .3s}
+  .totop.show{opacity:1;transform:none;pointer-events:auto}
+  .totop svg{width:20px;height:20px}
+
+  /* viewer: styles dots + favorite */
+  .v-dots{display:flex;justify-content:center;align-items:center;gap:6px;margin-top:8px;min-height:14px;font-size:11px;color:var(--muted)}
+  .v-dots button{width:8px;height:8px;border-radius:50%;border:0;padding:0;background:#4a433b}
+  .v-dots button[aria-current="true"]{background:var(--accent);width:18px;border-radius:5px}
+  .btn.heart svg{fill:none;stroke:currentColor}
+  .btn.heart[aria-pressed="true"]{color:#e08e7b;border-color:#6b3b31}
+  .btn.heart[aria-pressed="true"] svg{fill:#e08e7b;stroke:#e08e7b}
 
   /* ---------- grid ---------- */
   main{max-width:1840px;margin:0 auto;padding:12px var(--gutter) 80px}
@@ -162,14 +209,39 @@
 </header>
 
 <main>
-  <nav class="themes" id="themes" aria-label="Browse by theme"></nav>
+  <div class="bar" id="bar">
+    <div class="bar-in">
+      <nav class="themes" id="themes" aria-label="Browse by theme"></nav>
+      <div class="searchbox" id="searchbox">
+        <input id="q" type="search" placeholder="Search a verse, book or word…" aria-label="Search wallpapers" autocomplete="off">
+        <button class="round" id="searchClose" aria-label="Close search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      </div>
+      <div class="tools">
+        <select class="sort" id="sort" aria-label="Sort wallpapers">
+          <option value="bible">Bible order</option>
+          <option value="new">Newest</option>
+          <option value="popular">Most saved</option>
+        </select>
+        <button class="round" id="searchOpen" aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg></button>
+      </div>
+    </div>
+  </div>
+
+  <section class="newrow" id="newrow" hidden>
+    <p class="row-label">New this week</p>
+    <div class="newrow-list" id="newrowList"></div>
+  </section>
+
   <div class="grid" id="grid"></div>
+  <p class="empty" id="empty" hidden>No wallpapers match that search.</p>
 </main>
 
 <footer>
   <p>Free for personal use. Please don’t resell or redistribute.</p>
   <p>© <span id="yr"></span> Engraved</p>
 </footer>
+
+<button class="totop" id="totop" aria-label="Back to top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button>
 
 <div class="toast" id="toast" role="status" aria-live="polite">
   <img id="toastImg" alt="">
@@ -192,11 +264,13 @@
   <div class="v-info">
     <div class="v-ref" id="vRef"></div>
     <div class="v-sub" id="vSub"></div>
+    <div class="v-dots" id="vDots"></div>
   </div>
   <div class="v-actions">
     <button class="btn primary" id="vSave"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg><span id="vSaveLabel">Save to Photos</span></button>
     <button class="btn" id="vLock" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5.5h4"/></svg>Lock screen</button>
     <button class="btn" id="vShare"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>Send to a friend</button>
+    <button class="btn heart" id="vFav" aria-pressed="false" aria-label="Add to favorites"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-9.2-9.3C1.6 7.8 3.9 4.5 7.3 4.5c2 0 3.6 1.1 4.7 2.7 1.1-1.6 2.7-2.7 4.7-2.7 3.4 0 5.7 3.3 4.5 6.7-1.7 4.7-9.2 9.3-9.2 9.3z"/></svg><span id="vFavLabel">Favorite</span></button>
   </div>
   <div class="tints" id="tints" role="group" aria-label="Clock color">Clock
     <button class="tint" style="--c:#fff" data-t="white" aria-label="White" aria-pressed="true"></button>
@@ -210,13 +284,13 @@
 (() => {
   // Save counter API (Cloudflare Worker). Leave empty to turn counts and notices off.
   const STATS_API = 'https://engraved-stats.burleson-matthew.workers.dev';
-  const NEW_DAYS = 21;                          // "New" badge for wallpapers added in the last N days
+  const NEW_ROW_DAYS = 14;                      // "New this week" row shows wallpapers added in the last N days
   const $ = id => document.getElementById(id);
   const grid = $('grid'), viewer = $('viewer');
   const isIOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
   $('yr').textContent = new Date().getFullYear();
 
-  let all = [], shown = [], theme = 'All', current = -1, lastFocus = null, newCutoff = '', tintMode = 'white';
+  let all = [], shown = [], groups = [], theme = 'All', sortBy = 'bible', query = '', current = -1, lastFocus = null, newCutoff = '', tintMode = 'white';
   const THEMES = ['Peace','Strength','Hope','Trust','Faith','Grace','Comfort','Light','Joy & Praise','The Cross'];
   const blobs = new Map();
   let counts = {}, recent = [];
@@ -228,7 +302,7 @@
       .map(x => x.w);
     const dates = data.map(w => w.added).sort();
     newCutoff = dates[0] || '';                 // launch-day wallpapers don't get a "New" badge
-    shown = all;
+    initSeen();
     buildThemes();
     showToday();
     render();
@@ -242,22 +316,94 @@
     const book = m[1] || ref, bi = BOOKS.indexOf(book);
     return {book, order: bi < 0 ? 999 : bi, ch: +m[2] || 0, v: +m[3] || 0};
   }
-  /* ---------- themes ---------- */
+  /* ---------- device storage (favorites, seen) — optional, never required ---------- */
+  function load(key, fallback) { try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; } catch { return fallback; } }
+  function store(key, val) { try { localStorage.setItem(key, JSON.stringify(val)); } catch {} }
+  const favs = new Set(load('eng-favs', []));
+
+  /* "New" badge: wallpapers this browser hasn't seen yet. First visit sets a quiet baseline. */
+  let seen = null, seenDirty = false;
+  function initSeen() {
+    const saved = load('eng-seen', null);
+    seen = new Set(saved || all.map(w => w.id));
+    if (!saved) store('eng-seen', [...seen]);
+  }
+  function markSeen(ids) {
+    ids.forEach(id => { if (!seen.has(id)) { seen.add(id); seenDirty = true; } });
+    if (seenDirty) { clearTimeout(markSeen.t); markSeen.t = setTimeout(() => { store('eng-seen', [...seen]); seenDirty = false; }, 800); }
+  }
+  const seenIO = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(e => {
+    if (!e.isIntersecting) return;
+    const g = groups[+e.target.dataset.g]; if (g) setTimeout(() => markSeen(g.items.map(w => w.id)), 1200);
+    seenIO.unobserve(e.target);
+  }), {threshold: .5}) : null;
+
+  /* ---------- themes bar ---------- */
   function buildThemes() {
     const counts = {};
     all.forEach(w => (w.themes || []).forEach(t => counts[t] = (counts[t] || 0) + 1));
     const list = [...THEMES.filter(t => counts[t]), ...Object.keys(counts).filter(t => !THEMES.includes(t)).sort()];
-    $('themes').innerHTML = '<div class="themes-label">Browse by theme</div>' +
-      ['All', ...list].map(t => `<button class="theme" data-t="${esc(t)}" aria-pressed="${t === theme}">${esc(t)}<span class="n">${t === 'All' ? all.length : counts[t]}</span></button>`).join('');
+    const favN = all.filter(w => favs.has(w.id)).length;
+    $('themes').innerHTML = [
+      `<button class="theme" data-t="All" aria-pressed="${theme === 'All'}">All<span class="n">${all.length}</span></button>`,
+      favN ? `<button class="theme fav" data-t="Favorites" aria-pressed="${theme === 'Favorites'}">♥ Favorites<span class="n">${favN}</span></button>` : '',
+      ...list.map(t => `<button class="theme" data-t="${esc(t)}" aria-pressed="${t === theme}">${esc(t)}<span class="n">${counts[t]}</span></button>`)
+    ].join('');
   }
   $('themes').addEventListener('click', e => {
     const b = e.target.closest('.theme'); if (b) setTheme(b.dataset.t);
   });
   function setTheme(t) {
     theme = t;
-    shown = t === 'All' ? all : all.filter(w => (w.themes || []).includes(t));
     $('themes').querySelectorAll('.theme').forEach(x => x.setAttribute('aria-pressed', x.dataset.t === t));
-    render();
+    render(true);
+  }
+  $('sort').onchange = e => { sortBy = e.target.value; render(true); };
+
+  /* search */
+  $('searchOpen').onclick = () => { $('bar').classList.add('searching'); $('q').focus(); };
+  $('searchClose').onclick = () => { $('bar').classList.remove('searching'); if (query) { $('q').value = ''; query = ''; render(true); } };
+  $('q').addEventListener('input', () => { query = $('q').value.trim().toLowerCase(); render(true); });
+  $('q').addEventListener('keydown', e => { if (e.key === 'Escape') $('searchClose').click(); });
+  function matches(w, q) {
+    if (!q) return true;
+    const hay = `${w.ref} ${w.text || ''} ${w.style || ''} ${(w.themes || []).join(' ')}`.toLowerCase();
+    return q.split(/\s+/).every(t => hay.includes(t));
+  }
+
+  /* pinned-bar edge + back to top */
+  const onScroll = () => {
+    $('bar').classList.toggle('stuck', $('bar').getBoundingClientRect().top <= 0 && scrollY > 200);
+    $('totop').classList.toggle('show', scrollY > 1400);
+  };
+  addEventListener('scroll', onScroll, {passive: true});
+  $('totop').onclick = () => scrollTo({top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'});
+
+  /* ---------- grouping + sorting ---------- */
+  const bibleIdx = new Map();
+  function buildGroups() {
+    all.forEach((w, i) => bibleIdx.set(w.id, i));
+    const list = all.filter(w =>
+      (theme === 'All' || (theme === 'Favorites' ? favs.has(w.id) : (w.themes || []).includes(theme))) && matches(w, query));
+    const byRef = new Map();
+    list.forEach(w => { if (!byRef.has(w.ref)) byRef.set(w.ref, []); byRef.get(w.ref).push(w); });
+    const saves = w => counts[w.id] || 0;
+    const itemSort = {
+      bible: (a, b) => bibleIdx.get(a.id) - bibleIdx.get(b.id),
+      new: (a, b) => b.added.localeCompare(a.added) || bibleIdx.get(a.id) - bibleIdx.get(b.id),
+      popular: (a, b) => saves(b) - saves(a) || bibleIdx.get(a.id) - bibleIdx.get(b.id),
+    }[sortBy];
+    groups = [...byRef.values()].map(items => {
+      items.sort(itemSort);
+      return {ref: items[0].ref, items, first: Math.min(...items.map(w => bibleIdx.get(w.id))),
+        newest: items.reduce((m, w) => w.added > m ? w.added : m, ''), total: items.reduce((n, w) => n + saves(w), 0)};
+    });
+    groups.sort({
+      bible: (a, b) => a.first - b.first,
+      new: (a, b) => b.newest.localeCompare(a.newest) || a.first - b.first,
+      popular: (a, b) => b.total - a.total || a.first - b.first,
+    }[sortBy]);
+    shown = groups.flatMap(g => g.items);
   }
 
   /* ---------- grid ---------- */
@@ -265,10 +411,18 @@
     ? new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), {rootMargin: '0px 0px -40px 0px'})
     : null;
   if (io) grid.classList.add('reveal');
-  function render() {
-    const cutoff = Date.now() - NEW_DAYS * 864e5;
+  const STACK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="7" y="3" width="12" height="16" rx="2"/><path d="M4 7v12a2 2 0 0 0 2 2h9"/></svg>';
+  const HEART = '<svg viewBox="0 0 24 24"><path d="M12 20.5s-7.5-4.6-9.2-9.3C1.6 7.8 3.9 4.5 7.3 4.5c2 0 3.6 1.1 4.7 2.7 1.1-1.6 2.7-2.7 4.7-2.7 3.4 0 5.7 3.3 4.5 6.7-1.7 4.7-9.2 9.3-9.2 9.3z"/></svg>';
+  function newBadge(g) {
+    const fresh = g.items.filter(w => !seen.has(w.id)).length;
+    if (!fresh) return '';
+    return `<span class="badge-new">${fresh < g.items.length ? 'New style' : 'New'}</span>`;
+  }
+  function render(filterChanged) {
+    buildGroups();
+    const plain = theme === 'All' && !query;
     const cols = getComputedStyle(grid).gridTemplateColumns.split(' ').length || 1;
-    const heroHTML = theme === 'All' && todayW ? `
+    const heroHTML = plain && todayW ? `
       <div class="card hero" style="--d:0ms">
         <button class="frame" data-hero aria-label="Preview ${esc(todayW.ref)}">
           <img src="${todayW.thumb}" alt="${esc(todayW.text || todayW.ref)}" decoding="async" onload="this.classList.add('loaded')">
@@ -284,21 +438,46 @@
           </div>
         </div>
       </div>` : '';
-    grid.innerHTML = heroHTML + shown.map((w, i) => `
-      <button class="card" data-i="${i}" aria-label="${esc(w.ref)}" style="--d:${((i + (heroHTML ? 2 : 0)) % cols) * 70}ms">
+    grid.innerHTML = heroHTML + groups.map((g, i) => {
+      const w = g.items[0], n = g.items.length;
+      return `
+      <button class="card${n > 1 ? ' stack' : ''}" data-g="${i}" aria-label="${esc(g.ref)}${n > 1 ? `, ${n} styles` : ''}" style="--d:${((i + (heroHTML ? 2 : 0)) % cols) * 70}ms">
         <div class="frame">
           <img src="${w.thumb}" alt="${esc(w.text || w.ref)}" loading="lazy" decoding="async" onload="this.classList.add('loaded')">
-          ${w.added > newCutoff && new Date(w.added).getTime() > cutoff ? '<span class="new">New</span>' : ''}
+          ${n > 1 ? `<span class="styles">${STACK}${n} styles</span>` : ''}
+          ${g.items.some(x => favs.has(x.id)) ? `<span class="favmark" aria-label="In your favorites">${HEART}</span>` : ''}
+          ${newBadge(g)}
         </div>
-        <div class="meta"><span class="ref">${esc(w.ref)}</span>${countHTML(w.id)}</div>
-      </button>`).join('');
+        <div class="meta"><span class="ref">${esc(g.ref)}</span>${countHTML(g.total)}</div>
+      </button>`;
+    }).join('');
     grid.querySelectorAll('img').forEach(img => { if (img.complete) img.classList.add('loaded'); });
     if (io) grid.querySelectorAll('.card').forEach(c => io.observe(c));
+    if (seenIO) grid.querySelectorAll('.card[data-g]').forEach(c => seenIO.observe(c));
+    $('empty').hidden = groups.length > 0;
+    $('empty').textContent = theme === 'Favorites' && !query ? 'No favorites yet. Tap the heart on any wallpaper to add it here.' : 'No wallpapers match that search.';
+    renderNewRow(plain);
+    if (filterChanged && $('bar').getBoundingClientRect().top <= 0) scrollTo({top: $('bar').offsetTop + 1});
   }
+  function renderNewRow(plain) {
+    const since = new Date(Date.now() - NEW_ROW_DAYS * 864e5).toISOString().slice(0, 10);
+    const fresh = plain ? all.filter(w => w.added > newCutoff && w.added >= since).sort((a, b) => b.added.localeCompare(a.added)) : [];
+    $('newrow').hidden = !fresh.length;
+    $('newrowList').innerHTML = fresh.map(w => `
+      <button class="mini" data-id="${w.id}" aria-label="${esc(w.ref)}">
+        <div class="frame"><img src="${w.thumb}" alt="${esc(w.text || w.ref)}" loading="lazy" onload="this.classList.add('loaded')"></div>
+        <div class="meta"><span class="ref">${esc(w.ref)}</span></div>
+      </button>`).join('');
+  }
+  $('newrowList').addEventListener('click', e => {
+    const b = e.target.closest('.mini'); if (!b) return;
+    const w = all.find(x => x.id === b.dataset.id); if (w) openWallpaper(w);
+  });
   grid.addEventListener('click', e => {
     if (e.target.closest('[data-hero-share]')) return shareLink(todayW, e.target.closest('[data-hero-share]'));
     if (e.target.closest('[data-hero]')) return openWallpaper(todayW);
-    const c = e.target.closest('.card[data-i]'); if (c) open(+c.dataset.i);
+    const c = e.target.closest('.card[data-g]'); if (!c) return;
+    const g = groups[+c.dataset.g]; if (g) open(shown.indexOf(g.items[0]));
   });
 
   /* ---------- verse of the day ---------- */
@@ -314,7 +493,10 @@
   }
   function openWallpaper(w) {
     let i = shown.indexOf(w);
-    if (i < 0) { setTheme('All'); i = shown.indexOf(w); }
+    if (i < 0) {
+      theme = 'All'; query = ''; $('q').value = ''; $('bar').classList.remove('searching');
+      buildThemes(); render(); i = shown.indexOf(w);
+    }
     open(i);
   }
 
@@ -334,6 +516,9 @@
     $('vImg').alt = w.text || w.ref;
     $('vRef').textContent = w.ref;
     setSub(w);
+    setDots(w);
+    setFav(w);
+    markSeen([w.id]);
     $('vSaveLabel').textContent = isIOS ? 'Save to Photos' : 'Download';
     $('hint').textContent = isIOS ? 'Then in Photos: tap Share → Use as Wallpaper.' : 'Full resolution · 1320 × 2868';
     history.replaceState(null, '', '#' + w.id);
@@ -465,6 +650,33 @@
     if (blob) setTimeout(() => URL.revokeObjectURL(a.href), 4000);
   };
 
+  /* ---------- viewer: styles of this verse + favorite ---------- */
+  function setDots(w) {
+    const g = groups.find(g => g.items.includes(w));
+    if (!g || g.items.length < 2) { $('vDots').innerHTML = ''; return; }
+    const k = g.items.indexOf(w);
+    $('vDots').innerHTML = g.items.map((x, j) => `<button data-id="${x.id}" aria-label="Style ${j + 1}" aria-current="${j === k}"></button>`).join('')
+      + `<span style="margin-left:6px">Style ${k + 1} of ${g.items.length}</span>`;
+  }
+  $('vDots').addEventListener('click', e => {
+    const b = e.target.closest('button[data-id]'); if (!b) return;
+    open(shown.findIndex(x => x.id === b.dataset.id));
+  });
+  function setFav(w) {
+    const on = favs.has(w.id);
+    $('vFav').setAttribute('aria-pressed', on);
+    $('vFav').setAttribute('aria-label', on ? 'Remove from favorites' : 'Add to favorites');
+    $('vFavLabel').textContent = on ? 'Favorited' : 'Favorite';
+  }
+  $('vFav').onclick = () => {
+    const w = shown[current]; if (!w) return;
+    favs.has(w.id) ? favs.delete(w.id) : favs.add(w.id);
+    store('eng-favs', [...favs]);
+    setFav(w); buildThemes();
+    const c = grid.querySelector(`.card[data-g="${groups.findIndex(g => g.items.includes(w))}"] .frame`);
+    if (c) { c.querySelector('.favmark')?.remove(); if (groups.find(g => g.items.includes(w)).items.some(x => favs.has(x.id))) c.insertAdjacentHTML('beforeend', `<span class="favmark">${HEART}</span>`); }
+  };
+
   /* ---------- logo shimmer on hover ---------- */
   const glint = $('glint');
   document.querySelector('.brand').addEventListener('mouseenter', () => {
@@ -475,11 +687,12 @@
   /* ---------- save counts + live notices ---------- */
   const DL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>';
   function fmt(n) { return n >= 1e4 ? (n / 1e3).toFixed(0) + 'k' : n >= 1e3 ? (n / 1e3).toFixed(1).replace(/\.0$/, '') + 'k' : String(n); }
-  function countHTML(id) { const n = counts[id]; return n ? `<span class="cnt" title="Saved ${n} times">${DL}${fmt(n)}</span>` : ''; }
+  function countHTML(n) { return n ? `<span class="cnt" title="Saved ${n} times">${DL}${fmt(n)}</span>` : ''; }
   function refreshCounts() {
-    grid.querySelectorAll('.card[data-i]').forEach(c => {
-      const w = shown[+c.dataset.i], m = c.querySelector('.meta'); if (!w || !m) return;
-      m.querySelector('.cnt')?.remove(); m.insertAdjacentHTML('beforeend', countHTML(w.id));
+    grid.querySelectorAll('.card[data-g]').forEach(c => {
+      const g = groups[+c.dataset.g], m = c.querySelector('.meta'); if (!g || !m) return;
+      g.total = g.items.reduce((n, w) => n + (counts[w.id] || 0), 0);
+      m.querySelector('.cnt')?.remove(); m.insertAdjacentHTML('beforeend', countHTML(g.total));
     });
   }
   async function loadStats() {
