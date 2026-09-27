@@ -19,7 +19,7 @@
 <style>
   :root{
     --bg:#0f0e0c; --bg-2:#181613; --line:#2a2622; --text:#ece4d3; --muted:#9c9384;
-    --accent:#d9a55b; --radius:22px; --gutter:clamp(16px,4vw,40px);
+    --accent:#d9a55b; --radius:22px; --gutter:clamp(16px,7vw,140px);
   }
   *{box-sizing:border-box}
   html{-webkit-text-size-adjust:100%}
@@ -93,6 +93,7 @@
   .v-prev{left:clamp(12px,4vw,48px)} .v-next{right:clamp(12px,4vw,48px)}
   @media (max-width:640px){.v-prev,.v-next{display:none}.v-stage{height:min(64vh,700px)}}
   body.locked{overflow:hidden}
+  @media (max-width:640px){:root{--gutter:16px}}
 </style>
 </head>
 <body>
