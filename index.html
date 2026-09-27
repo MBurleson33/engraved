@@ -35,26 +35,36 @@
   .verse span{display:block;font-family:Inter,system-ui,sans-serif;font-style:normal;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-top:6px}
   .lede{text-wrap:pretty;color:var(--muted);max-width:520px;margin:18px auto 0;font-size:16px}
 
-  /* ---------- toolbar ---------- */
-  .toolbar{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
-  .toolbar-inner{max-width:1400px;margin:0 auto;padding:12px var(--gutter);display:flex;gap:12px;align-items:center}
-  .chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;flex:1;padding:2px;margin:-2px}
-  .chips::-webkit-scrollbar{display:none}
-  .chip{flex:none;border:1px solid var(--line);background:transparent;border-radius:999px;padding:7px 14px;font-size:13px;color:var(--muted);transition:.15s}
-  .chip:hover{color:var(--text);border-color:#4a433b}
-  .chip[aria-pressed="true"]{background:var(--text);color:var(--bg);border-color:var(--text)}
-  .chip .n{opacity:.55;margin-left:4px;font-size:12px}
-  .search{flex:none;width:200px;background:var(--bg-2);border:1px solid var(--line);border-radius:999px;padding:8px 14px;color:var(--text);font:inherit;font-size:14px;outline:none}
+  /* ---------- layout + verse menu ---------- */
+  .layout{max-width:1400px;margin:0 auto;padding:0 var(--gutter);display:grid;grid-template-columns:230px minmax(0,1fr);gap:clamp(24px,4vw,56px);border-top:1px solid var(--line)}
+  .side{position:sticky;top:0;align-self:start;max-height:100vh;overflow-y:auto;padding:28px 4px 48px 0;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+  .search{width:100%;background:var(--bg-2);border:1px solid var(--line);border-radius:10px;padding:9px 12px;color:var(--text);font:inherit;font-size:14px;outline:none;margin-bottom:18px}
   .search:focus{border-color:var(--accent)}
   .search::placeholder{color:#6f685d}
-  @media (max-width:640px){
-    .toolbar-inner{flex-direction:column;align-items:stretch;gap:10px}
-    .search{width:100%;order:-1}
+  .book{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin:22px 0 6px;padding-left:12px}
+  .vbtn{display:flex;justify-content:space-between;align-items:baseline;gap:8px;width:100%;background:none;border:0;border-left:2px solid transparent;padding:5px 10px;text-align:left;font-family:"Cormorant Garamond",Georgia,serif;font-size:17px;font-weight:500;color:#c9c0ae;border-radius:0 6px 6px 0}
+  .vbtn:hover{color:var(--text);background:rgba(255,255,255,.03)}
+  .vbtn[aria-current="true"]{color:var(--accent);border-left-color:var(--accent);background:rgba(217,165,91,.07)}
+  .vbtn .n{font-family:Inter,sans-serif;font-size:11px;color:var(--muted);opacity:.7}
+  .vbtn.all{font-family:Inter,sans-serif;font-size:14px;font-weight:600}
+  .side-empty{color:var(--muted);font-size:13px;padding-left:12px}
+  .mbar,.scrim,.side-close{display:none}
+  @media (max-width:860px){
+    .layout{grid-template-columns:1fr;border-top:0}
+    .mbar{display:flex;position:sticky;top:0;z-index:5;align-items:center;gap:12px;padding:10px var(--gutter);background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+    .mbar button{flex:none;border:1px solid var(--line);background:var(--bg-2);border-radius:999px;padding:8px 14px;font-size:14px;display:inline-flex;gap:8px;align-items:center}
+    .mbar svg{width:16px;height:16px}
+    .mbar .cur{font-family:"Cormorant Garamond",Georgia,serif;font-size:18px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .side{position:fixed;z-index:16;top:0;left:0;bottom:0;align-self:stretch;height:100%;overscroll-behavior:contain;width:min(320px,86vw);max-height:none;background:var(--bg-2);padding:max(20px,env(safe-area-inset-top)) 16px 40px;transform:translateX(-102%);transition:transform .28s cubic-bezier(.2,.7,.2,1);border-right:1px solid var(--line)}
+    .side.open{transform:none;box-shadow:20px 0 60px rgba(0,0,0,.6)}
+    .side-close{display:block;margin:0 0 14px auto;background:none;border:0;color:var(--muted);font-size:14px}
+    .scrim{position:fixed;inset:0;z-index:15;background:rgba(0,0,0,.55)}
+    .scrim.open{display:block}
   }
 
   /* ---------- grid ---------- */
-  main{max-width:1400px;margin:0 auto;padding:28px var(--gutter) 80px}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:clamp(14px,2.2vw,28px)}
+  main{padding:28px 0 80px;min-width:0}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:clamp(14px,2.2vw,28px)}
   @media (max-width:520px){.grid{grid-template-columns:1fr 1fr;gap:14px}}
   .card{display:block;align-self:start;background:none;border:0;padding:0;text-align:left;width:100%}
   .frame{position:relative;aspect-ratio:1320/2868;border-radius:var(--radius);overflow:hidden;background:var(--bg-2);box-shadow:0 1px 0 rgba(255,255,255,.04) inset,0 18px 40px -22px rgba(0,0,0,.9);transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s}
@@ -64,11 +74,15 @@
   .card:focus-visible{outline:none}
   .card:focus-visible .frame{outline:2px solid var(--accent);outline-offset:3px}
   .new{position:absolute;top:12px;left:12px;background:var(--accent);color:#1b140a;font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:4px 8px;border-radius:999px}
-  .meta{padding:12px 4px 0;display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+  .meta{padding:12px 4px 0;display:flex;flex-direction:column;gap:1px}
   .ref{font-family:"Cormorant Garamond",Georgia,serif;font-size:19px;font-weight:600;line-height:1.2}
   .style{font-size:12px;color:var(--muted);white-space:nowrap}
-  @media (max-width:520px){.meta{flex-direction:column;gap:0}.ref{font-size:17px}}
+  @media (max-width:520px){.ref{font-size:17px}}
   .empty{color:var(--muted);text-align:center;padding:80px 0}
+  .grid-head{display:flex;align-items:baseline;gap:12px;margin:0 0 20px}
+  .grid-head h2{font-family:"Cormorant Garamond",Georgia,serif;font-weight:600;font-size:28px;margin:0}
+  .grid-head span{color:var(--muted);font-size:13px}
+  @media (max-width:860px){.grid-head{display:none}}
 
   footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-align:center;padding:36px var(--gutter) 48px}
   footer p{margin:4px 0}
@@ -117,17 +131,24 @@
   <p class="lede">Free, hand-designed backgrounds to keep His Word in the palm of your hand. Tap any wallpaper to preview it on a lock screen and save it to your Photos.</p>
 </header>
 
-<div class="toolbar">
-  <div class="toolbar-inner">
-    <div class="chips" id="chips" role="toolbar" aria-label="Filter by style"></div>
-    <input class="search" id="search" type="search" placeholder="Search verse or book…" aria-label="Search wallpapers">
-  </div>
+<div class="mbar">
+  <button id="openSide" aria-controls="side" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Verses</button>
+  <span class="cur" id="curM">All wallpapers</span>
 </div>
+<div class="scrim" id="scrim"></div>
 
-<main>
-  <div class="grid" id="grid" aria-live="polite"></div>
-  <p class="empty" id="empty" hidden>No wallpapers match that search.</p>
-</main>
+<div class="layout">
+  <aside class="side" id="side" aria-label="Browse by verse">
+    <button class="side-close" id="closeSide">Close ✕</button>
+    <input class="search" id="search" type="search" placeholder="Search verses…" aria-label="Search wallpapers">
+    <nav id="verses"></nav>
+  </aside>
+  <main>
+    <div class="grid-head"><h2 id="curD">All wallpapers</h2><span id="countD"></span></div>
+    <div class="grid" id="grid" aria-live="polite"></div>
+    <p class="empty" id="empty" hidden>No wallpapers match that search.</p>
+  </main>
+</div>
 
 <footer>
   <p>Free for personal use. Please don’t resell or redistribute.</p>
@@ -161,45 +182,75 @@
 (() => {
   const NEW_DAYS = 21;                          // "New" badge for wallpapers added in the last N days
   const $ = id => document.getElementById(id);
-  const grid = $('grid'), chips = $('chips'), search = $('search'), viewer = $('viewer');
+  const grid = $('grid'), nav = $('verses'), search = $('search'), viewer = $('viewer'), side = $('side');
   const isIOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
   $('yr').textContent = new Date().getFullYear();
 
-  let all = [], shown = [], style = 'All', current = -1, lastFocus = null;
+  let all = [], shown = [], verse = 'All', current = -1, lastFocus = null, newCutoff = '';
   const blobs = new Map();
 
   fetch('wallpapers.json', {cache: 'no-cache'}).then(r => r.json()).then(data => {
     all = data;
-    buildChips();
+    const dates = all.map(w => w.added).sort();
+    newCutoff = dates[0] || '';                 // launch-day wallpapers don't get a "New" badge
+    buildNav();
     render();
     openFromHash();
   }).catch(() => { grid.innerHTML = '<p class="empty">Couldn’t load wallpapers.json.</p>'; });
 
-  function buildChips() {
-    const counts = {};
-    all.forEach(w => { if (w.style) counts[w.style] = (counts[w.style] || 0) + 1; });
-    const styles = ['All', ...Object.keys(counts).sort()];
-    chips.innerHTML = styles.map(s =>
-      `<button class="chip" aria-pressed="${s === style}" data-s="${esc(s)}">${esc(s)}<span class="n">${s === 'All' ? all.length : counts[s]}</span></button>`).join('');
+  /* ---------- verse menu ---------- */
+  const BOOKS = ['Genesis','Exodus','Leviticus','Numbers','Deuteronomy','Joshua','Judges','Ruth','1 Samuel','2 Samuel','1 Kings','2 Kings','1 Chronicles','2 Chronicles','Ezra','Nehemiah','Esther','Job','Psalm','Proverbs','Ecclesiastes','Song of Songs','Isaiah','Jeremiah','Lamentations','Ezekiel','Daniel','Hosea','Joel','Amos','Obadiah','Jonah','Micah','Nahum','Habakkuk','Zephaniah','Haggai','Zechariah','Malachi','Matthew','Mark','Luke','John','Acts','Romans','1 Corinthians','2 Corinthians','Galatians','Ephesians','Philippians','Colossians','1 Thessalonians','2 Thessalonians','1 Timothy','2 Timothy','Titus','Philemon','Hebrews','James','1 Peter','2 Peter','1 John','2 John','3 John','Jude','Revelation'];
+  function parseRef(ref) {
+    const m = ref.match(/^(.*?)\s+(\d+)(?::(\d+))?/) || [];
+    const book = m[1] || ref, bi = BOOKS.indexOf(book);
+    return {book, order: bi < 0 ? 999 : bi, ch: +m[2] || 0, v: +m[3] || 0};
   }
-  chips.addEventListener('click', e => {
-    const b = e.target.closest('.chip'); if (!b) return;
-    style = b.dataset.s;
-    chips.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', c === b));
+  function buildNav() {
+    const q = search.value.trim().toLowerCase();
+    const counts = new Map();
+    all.forEach(w => {
+      if (q && !`${w.ref} ${w.text} ${w.style}`.toLowerCase().includes(q)) return;
+      counts.set(w.ref, (counts.get(w.ref) || 0) + 1);
+    });
+    const refs = [...counts.keys()].map(r => ({r, ...parseRef(r)}))
+      .sort((a, b) => a.order - b.order || a.book.localeCompare(b.book) || a.ch - b.ch || a.v - b.v);
+    let html = `<button class="vbtn all" data-v="All" aria-current="${verse === 'All'}">All wallpapers<span class="n">${q ? [...counts.values()].reduce((a, b) => a + b, 0) : all.length}</span></button>`;
+    let lastBook = '';
+    refs.forEach(x => {
+      if (x.book !== lastBook) { html += `<div class="book">${esc(x.book)}</div>`; lastBook = x.book; }
+      const label = x.r.slice(x.book.length).trim() || x.r;
+      html += `<button class="vbtn" data-v="${esc(x.r)}" aria-current="${verse === x.r}" aria-label="${esc(x.r)}">${esc(label)}<span class="n">${counts.get(x.r)}</span></button>`;
+    });
+    if (!refs.length) html += '<p class="side-empty">No matching verses.</p>';
+    nav.innerHTML = html;
+  }
+  nav.addEventListener('click', e => {
+    const b = e.target.closest('.vbtn'); if (!b) return;
+    verse = b.dataset.v;
+    nav.querySelectorAll('.vbtn').forEach(x => x.setAttribute('aria-current', x === b));
     render();
+    closeSide();
+    if (window.scrollY > $('grid').offsetTop) window.scrollTo({top: document.querySelector('.layout').offsetTop, behavior: 'smooth'});
   });
-  search.addEventListener('input', render);
+  search.addEventListener('input', () => { verse = 'All'; buildNav(); render(); });
 
+  /* mobile drawer */
+  function openSide() { side.classList.add('open'); $('scrim').classList.add('open'); $('openSide').setAttribute('aria-expanded', true); }
+  function closeSide() { side.classList.remove('open'); $('scrim').classList.remove('open'); $('openSide').setAttribute('aria-expanded', false); }
+  $('openSide').onclick = openSide; $('closeSide').onclick = closeSide; $('scrim').onclick = closeSide;
   function render() {
     const q = search.value.trim().toLowerCase();
-    shown = all.filter(w => (style === 'All' || w.style === style) &&
+    shown = all.filter(w => (verse === 'All' || w.ref === verse) &&
       (!q || `${w.ref} ${w.text} ${w.style}`.toLowerCase().includes(q)));
     const cutoff = Date.now() - NEW_DAYS * 864e5;
+    const label = verse === 'All' ? (q ? `Results for “${search.value.trim()}”` : 'All wallpapers') : verse;
+    $('curD').textContent = label; $('curM').textContent = label;
+    $('countD').textContent = `${shown.length} wallpaper${shown.length === 1 ? '' : 's'}`;
     grid.innerHTML = shown.map((w, i) => `
       <button class="card" data-i="${i}" aria-label="${esc(w.ref)}${w.style ? ', ' + esc(w.style) : ''}">
         <div class="frame">
           <img src="${w.thumb}" alt="${esc(w.text || w.ref)}" loading="lazy" decoding="async" onload="this.classList.add('loaded')">
-          ${new Date(w.added).getTime() > cutoff ? '<span class="new">New</span>' : ''}
+          ${w.added > newCutoff && new Date(w.added).getTime() > cutoff ? '<span class="new">New</span>' : ''}
         </div>
         <div class="meta"><span class="ref">${esc(w.ref)}</span><span class="style">${esc(w.style)}</span></div>
       </button>`).join('');
@@ -248,6 +299,7 @@
   $('vNext').onclick = () => open(current + 1);
   viewer.addEventListener('click', e => { if (e.target === viewer) close(); });
   document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && side.classList.contains('open')) return closeSide();
     if (!viewer.classList.contains('open')) return;
     if (e.key === 'Escape') close();
     if (e.key === 'ArrowLeft') open(current - 1);

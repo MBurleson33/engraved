@@ -80,6 +80,16 @@
     "thumb": "thumbs/ephesians-1-19--golden-hour.webp"
   },
   {
+    "id": "isaiah-43-2--cinematic",
+    "ref": "Isaiah 43:2",
+    "style": "Cinematic",
+    "text": "When you go through deep waters, I will be with you.",
+    "added": "2026-09-27",
+    "featured": false,
+    "full": "full/isaiah-43-2--cinematic.jpg",
+    "thumb": "thumbs/isaiah-43-2--cinematic.webp"
+  },
+  {
     "id": "isaiah-58-11--modern-collage",
     "ref": "Isaiah 58:11",
     "style": "Modern Collage",
@@ -128,6 +138,16 @@
     "featured": false,
     "full": "full/john-1-5--cinematic.jpg",
     "thumb": "thumbs/john-1-5--cinematic.webp"
+  },
+  {
+    "id": "john-15-5--minimal",
+    "ref": "John 15:5",
+    "style": "Minimal",
+    "text": "Abide in me.",
+    "added": "2026-09-27",
+    "featured": false,
+    "full": "full/john-15-5--minimal.jpg",
+    "thumb": "thumbs/john-15-5--minimal.webp"
   },
   {
     "id": "john-19-30--golden-hour",
@@ -250,6 +270,16 @@
     "thumb": "thumbs/matthew-11-28--vintage-travel.webp"
   },
   {
+    "id": "matthew-17-20--minimal",
+    "ref": "Matthew 17:20",
+    "style": "Minimal",
+    "text": "Even a small faith matters.",
+    "added": "2026-09-27",
+    "featured": false,
+    "full": "full/matthew-17-20--minimal.jpg",
+    "thumb": "thumbs/matthew-17-20--minimal.webp"
+  },
+  {
     "id": "matthew-19-26--golden-hour",
     "ref": "Matthew 19:26",
     "style": "Golden Hour",
@@ -298,6 +328,16 @@
     "featured": false,
     "full": "full/matthew-6-33--golden-hour.jpg",
     "thumb": "thumbs/matthew-6-33--golden-hour.webp"
+  },
+  {
+    "id": "matthew-7-14--minimal",
+    "ref": "Matthew 7:14",
+    "style": "Minimal",
+    "text": "The way is narrow.",
+    "added": "2026-09-27",
+    "featured": false,
+    "full": "full/matthew-7-14--minimal.jpg",
+    "thumb": "thumbs/matthew-7-14--minimal.webp"
   },
   {
     "id": "nehemiah-8-10--synthwave",

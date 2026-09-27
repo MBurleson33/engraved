@@ -31,7 +31,7 @@ originals/        your source files (NOT committed; see .gitignore)
 
 Export originals at **1320 × 2868** if you can. The script warns when a file is smaller and would look soft.
 
-Style filter chips are created automatically from the style names, so a new style shows up as a new chip.
+The left menu lists every verse, grouped by book in Bible order, and is built automatically from wallpapers.json.
 Wallpapers added in the last 21 days get a "New" badge (change `NEW_DAYS` in index.html).
 
 ## Publishing on GitHub Pages
