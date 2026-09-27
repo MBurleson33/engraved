@@ -15,7 +15,7 @@ No IP addresses or personal data are stored — only wallpaper id, approximate c
    Variable name `DB` (exactly) → database `engraved` → Save.
 7. Test it: open `https://engraved-stats.<your-subdomain>.workers.dev/stats` —
    you should see `{"counts":{},"recent":[],...}`.
-8. Turn it on in the site: in `index.html`, set
+8. Turn it on in the site (already done for engraved-stats.burleson-matthew.workers.dev):
    `const STATS_API = 'https://engraved-stats.<your-subdomain>.workers.dev';` (no trailing slash).
 
 If you later move the site to a custom domain, update `SITE` at the top of `worker.js`.

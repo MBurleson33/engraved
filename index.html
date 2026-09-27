@@ -209,7 +209,7 @@
 <script>
 (() => {
   // Save counter API (Cloudflare Worker). Leave empty to turn counts and notices off.
-  const STATS_API = '';
+  const STATS_API = 'https://engraved-stats.burleson-matthew.workers.dev';
   const NEW_DAYS = 21;                          // "New" badge for wallpapers added in the last N days
   const $ = id => document.getElementById(id);
   const grid = $('grid'), viewer = $('viewer');
