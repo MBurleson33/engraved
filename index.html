@@ -37,7 +37,10 @@
 
   /* ---------- grid ---------- */
   main{max-width:1400px;margin:0 auto;padding:12px var(--gutter) 80px}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:clamp(14px,2.2vw,28px)}
+  .grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:clamp(14px,1.8vw,24px)}
+  @media (max-width:1180px){.grid{grid-template-columns:repeat(5,minmax(0,1fr))}}
+  @media (max-width:980px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+  @media (max-width:760px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
   @media (max-width:520px){.grid{grid-template-columns:1fr 1fr;gap:14px}}
   .card{display:block;align-self:start;background:none;border:0;padding:0;text-align:left;width:100%}
   .frame{position:relative;aspect-ratio:1320/2868;border-radius:var(--radius);overflow:hidden;background:var(--bg-2);box-shadow:0 1px 0 rgba(255,255,255,.04) inset,0 18px 40px -22px rgba(0,0,0,.9);transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s}
@@ -47,8 +50,8 @@
   .card:focus-visible{outline:none}
   .card:focus-visible .frame{outline:2px solid var(--accent);outline-offset:3px}
   .new{position:absolute;top:12px;left:12px;background:var(--accent);color:#1b140a;font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:4px 8px;border-radius:999px}
-  .meta{padding:12px 4px 0;display:flex;flex-direction:column;gap:1px}
-  .ref{font-family:"Cormorant Garamond",Georgia,serif;font-size:19px;font-weight:600;line-height:1.2}
+  .meta{padding:10px 4px 0;display:flex;flex-direction:column;gap:1px}
+  .ref{font-family:"Cormorant Garamond",Georgia,serif;font-size:18px;font-weight:600;line-height:1.2}
   .style{font-size:12px;color:var(--muted);white-space:nowrap}
   @media (max-width:520px){.ref{font-size:17px}}
   .empty{color:var(--muted);text-align:center;padding:80px 0}
@@ -162,12 +165,12 @@
   function render() {
     const cutoff = Date.now() - NEW_DAYS * 864e5;
     grid.innerHTML = shown.map((w, i) => `
-      <button class="card" data-i="${i}" aria-label="${esc(w.ref)}${w.style ? ', ' + esc(w.style) : ''}">
+      <button class="card" data-i="${i}" aria-label="${esc(w.ref)}">
         <div class="frame">
           <img src="${w.thumb}" alt="${esc(w.text || w.ref)}" loading="lazy" decoding="async" onload="this.classList.add('loaded')">
           ${w.added > newCutoff && new Date(w.added).getTime() > cutoff ? '<span class="new">New</span>' : ''}
         </div>
-        <div class="meta"><span class="ref">${esc(w.ref)}</span><span class="style">${esc(w.style)}</span></div>
+        <div class="meta"><span class="ref">${esc(w.ref)}</span></div>
       </button>`).join('');
     grid.querySelectorAll('img').forEach(img => { if (img.complete) img.classList.add('loaded'); });
   }
@@ -190,7 +193,7 @@
     hi.onload = () => { if (shown[current] === w) $('vImg').src = w.full; };
     $('vImg').alt = w.text || w.ref;
     $('vRef').textContent = w.ref;
-    $('vSub').textContent = [w.style, w.text && `“${w.text}”`].filter(Boolean).join(' · ');
+    $('vSub').textContent = w.text ? `“${w.text}”` : '';
     $('vSaveLabel').textContent = isIOS ? 'Save to Photos' : 'Download';
     $('hint').textContent = isIOS ? 'Then in Photos: tap Share → Use as Wallpaper.' : 'Full resolution · 1320 × 2868';
     history.replaceState(null, '', '#' + w.id);
