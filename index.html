@@ -42,25 +42,19 @@
   .verse span{display:block;font-family:Inter,system-ui,sans-serif;font-style:normal;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-top:6px}
   .lede{text-wrap:pretty;color:var(--muted);max-width:520px;margin:18px auto 0;font-size:16px}
 
-  /* ---------- verse of the day: a double-size tile at the start of the grid ---------- */
-  .grid .hero{grid-column:span 2;grid-row:span 2;display:flex;flex-direction:column;align-self:stretch;min-width:0}
-  .hero .frame{flex:1 1 0;min-height:0;aspect-ratio:auto;border-radius:calc(var(--radius) + 6px);cursor:pointer;box-shadow:0 0 0 1px rgba(217,165,91,.55),0 30px 70px -30px #000;background:none;border:0;padding:0;width:100%}
-  .hero .frame img{object-position:50% 40%}
-  .hero:hover .frame{transform:translateY(-4px)}
-  .h-meta{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;padding:12px 4px 0}
-  .h-eyebrow{font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin:0 0 2px}
-  .h-ref{font-family:"Cormorant Garamond",Georgia,serif;font-size:22px;font-weight:600;line-height:1.1;margin:0}
-  .h-actions{display:flex;gap:8px;flex:none}
-  .h-btn{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--bg-2);display:grid;place-items:center;padding:0}
-  .h-btn:hover{border-color:var(--accent);color:var(--accent)}
-  .h-btn svg{width:17px;height:17px}
-  .h-btn.sm-label{width:auto;padding:0 14px;border-radius:999px;font-size:13px;gap:6px;display:inline-flex;align-items:center}
-  /* phones: side-by-side inside one full-width row */
+  /* ---------- verse of the day: a card that takes the first two slots of the grid ---------- */
+  .grid .hero{grid-column:span 2;align-self:stretch;min-width:0;display:grid;grid-template-columns:44% minmax(0,1fr);gap:clamp(16px,1.6vw,26px);align-items:center;
+    background:linear-gradient(135deg,#1c1916,#12100e);border:1px solid var(--line);border-radius:calc(var(--radius) + 6px);padding:clamp(14px,1.3vw,20px)}
+  .hero .frame{width:100%;aspect-ratio:1320/2868;border:0;padding:0;cursor:pointer;box-shadow:0 24px 50px -26px #000}
+  .hero:hover .frame{transform:translateY(-3px)}
+  .h-eyebrow{font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin:0 0 10px}
+  .h-ref{font-family:"Cormorant Garamond",Georgia,serif;font-weight:600;font-size:clamp(24px,2.2vw,34px);line-height:1.05;margin:0}
+  .h-text{font-family:"Cormorant Garamond",Georgia,serif;font-style:italic;font-size:clamp(16px,1.25vw,20px);line-height:1.35;color:#d8cfbd;margin:12px 0 20px;text-wrap:pretty}
+  .h-actions{display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+  .h-actions .btn{padding:9px 16px;font-size:13.5px}
+  .h-actions .btn.primary{padding:10px 18px}
   @media (max-width:520px){
-    .grid .hero{grid-row:span 1;display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:center}
-    .hero .frame{flex:none;aspect-ratio:1320/2868;border-radius:var(--radius)}
-    .h-meta{flex-direction:column;align-items:flex-start;padding:0}
-    .h-ref{font-size:26px}
+    .grid .hero{align-self:start}
   }
 
   /* ---------- themes ---------- */
@@ -251,14 +245,16 @@
     const cols = getComputedStyle(grid).gridTemplateColumns.split(' ').length || 1;
     const heroHTML = theme === 'All' && todayW ? `
       <div class="card hero" style="--d:0ms">
-        <button class="frame" data-hero aria-label="Verse of the day: ${esc(todayW.ref)}. Preview and save">
-          <img src="${todayW.thumb}" srcset="${todayW.thumb} 420w, ${todayW.full} 1320w" sizes="(max-width:520px) 45vw, 34vw" alt="${esc(todayW.text || todayW.ref)}" decoding="async" onload="this.classList.add('loaded')">
+        <button class="frame" data-hero aria-label="Preview ${esc(todayW.ref)}">
+          <img src="${todayW.thumb}" alt="${esc(todayW.text || todayW.ref)}" decoding="async" onload="this.classList.add('loaded')">
         </button>
-        <div class="h-meta">
-          <div><p class="h-eyebrow">Verse of the day</p><p class="h-ref">${esc(todayW.ref)}</p></div>
+        <div>
+          <p class="h-eyebrow">Verse of the day · ${new Date().toLocaleDateString([], {month: 'long', day: 'numeric'})}</p>
+          <h2 class="h-ref">${esc(todayW.ref)}</h2>
+          ${todayW.text ? `<p class="h-text">“${esc(todayW.text)}”</p>` : ''}
           <div class="h-actions">
-            <button class="h-btn" data-hero aria-label="Preview and save"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg></button>
-            <button class="h-btn" data-hero-share aria-label="Send to a friend"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg></button>
+            <button class="btn primary" data-hero>Preview &amp; save</button>
+            <button class="btn" data-hero-share><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>Send to a friend</button>
           </div>
         </div>
       </div>` : '';
