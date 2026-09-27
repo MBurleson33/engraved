@@ -32,6 +32,8 @@ originals/        your source files (NOT committed; see .gitignore)
 Export originals at **1320 × 2868** if you can. The script warns when a file is smaller and would look soft.
 
 Wallpapers are shown in Bible order, so every version of the same verse sits side by side.
+
+Themes: each entry in wallpapers.json has a "themes" list (e.g. ["Peace","Trust"]). The theme links on the page are built from these. Download images get a small Engraved signature automatically; run `python3 build.py --rebuild` after changing the logo.
 Wallpapers added in the last 21 days get a "New" badge (change `NEW_DAYS` in index.html).
 
 ## Publishing on GitHub Pages
