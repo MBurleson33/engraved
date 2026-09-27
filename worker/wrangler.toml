@@ -1,0 +1,9 @@
+# Only needed if you deploy from the command line. The dashboard steps in README.md don't need it.
+name = "engraved-stats"
+main = "worker.js"
+compatibility_date = "2026-09-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "engraved"
+database_id = "REPLACE_WITH_YOUR_D1_DATABASE_ID"

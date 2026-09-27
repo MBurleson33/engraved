@@ -35,7 +35,8 @@
   .logo{display:block;width:100%;height:auto}
   /* one-time shine along the gold line (line sits 64.7% down the logo) */
   .glint{position:absolute;left:0;right:0;top:64.7%;height:8px;transform:translateY(-50%);overflow:hidden;pointer-events:none}
-  .glint::after{content:"";position:absolute;top:2px;bottom:2px;left:-25%;width:22%;background:linear-gradient(90deg,transparent,rgba(255,238,200,.95),transparent);filter:blur(.6px);animation:glint 1.9s .8s cubic-bezier(.45,0,.2,1) forwards}
+  .glint::after{content:"";position:absolute;top:2px;bottom:2px;left:-25%;width:22%;background:linear-gradient(90deg,transparent,rgba(255,238,200,.95),transparent);filter:blur(.6px);opacity:0}
+  .glint.run::after{opacity:1;animation:glint 1.9s var(--gd,.8s) cubic-bezier(.45,0,.2,1) forwards}
   @keyframes glint{to{transform:translateX(580%)}}
   h1{font-size:clamp(52px,9vw,96px);letter-spacing:.01em}
   .verse{text-wrap:balance;max-width:560px;margin-left:auto!important;margin-right:auto!important;font-family:"Cormorant Garamond",Georgia,serif;font-style:italic;font-size:clamp(19px,2.4vw,24px);color:var(--accent);margin:14px 0 0}
@@ -86,6 +87,20 @@
   .style{font-size:12px;color:var(--muted);white-space:nowrap}
   @media (max-width:520px){.ref{font-size:17px}}
   .empty{color:var(--muted);text-align:center;padding:80px 0}
+  .meta{flex-direction:row!important;justify-content:space-between;align-items:baseline}
+  .cnt{font-size:12px;color:var(--muted);white-space:nowrap;display:inline-flex;align-items:center;gap:4px;font-variant-numeric:tabular-nums}
+  .cnt svg{width:12px;height:12px;opacity:.8}
+  .h-count{font-size:12px;color:var(--muted);margin:-8px 0 16px}
+  /* live "just saved" notice */
+  .toast{position:fixed;left:max(16px,env(safe-area-inset-left));bottom:max(16px,env(safe-area-inset-bottom));z-index:12;display:flex;align-items:center;gap:12px;max-width:min(340px,calc(100vw - 32px));padding:10px 36px 10px 10px;background:rgba(27,24,21,.94);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:16px;box-shadow:0 20px 50px -20px #000;opacity:0;transform:translateY(12px);transition:opacity .45s,transform .45s cubic-bezier(.2,.7,.2,1);pointer-events:none;cursor:pointer;text-align:left;color:var(--text)}
+  .toast.show{opacity:1;transform:none;pointer-events:auto}
+  .toast img{width:34px;height:74px;object-fit:cover;border-radius:7px;flex:none}
+  .toast .t1{font-size:13px;line-height:1.35}
+  .toast .t1 b{font-weight:600}
+  .toast .t2{font-family:"Cormorant Garamond",Georgia,serif;font-size:17px;font-weight:600;line-height:1.2}
+  .toast .t3{font-size:11px;color:var(--muted);margin-top:2px}
+  .toast .x{position:absolute;top:6px;right:6px;width:26px;height:26px;border:0;background:none;color:var(--muted);font-size:16px;line-height:1;border-radius:50%}
+  .toast .x:hover{color:var(--text);background:rgba(255,255,255,.06)}
   /* reveal on scroll (only when JS adds .reveal) */
   .reveal .card{opacity:0;transform:translateY(16px);transition:opacity .7s ease var(--d,0s),transform .7s cubic-bezier(.2,.7,.2,1) var(--d,0s)}
   .reveal .card.in{opacity:1;transform:none}
@@ -141,7 +156,7 @@
 
 <header>
   <p class="eyebrow">Scripture wallpapers for iPhone</p>
-  <h1 class="brand"><img class="logo" src="brand/engraved-logo.svg" alt="Engraved" width="738" height="106"><span class="glint" aria-hidden="true"></span></h1>
+  <h1 class="brand"><img class="logo" src="brand/engraved-logo.svg" alt="Engraved" width="738" height="106"><span class="glint run" id="glint" aria-hidden="true"></span></h1>
   <p class="verse">“I have engraved you on the palms of my hands.”<span>Isaiah 49:16</span></p>
   <p class="lede">Free, hand-designed backgrounds to keep His Word in the palm of your hand. Tap any wallpaper to preview it on your lock screen and save it to Photos.</p>
 </header>
@@ -155,6 +170,12 @@
   <p>Free for personal use. Please don’t resell or redistribute.</p>
   <p>© <span id="yr"></span> Engraved</p>
 </footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite">
+  <img id="toastImg" alt="">
+  <div><div class="t1" id="toastT1"></div><div class="t2" id="toastT2"></div><div class="t3" id="toastT3"></div></div>
+  <button class="x" id="toastX" aria-label="Hide these notices">×</button>
+</div>
 
 <div class="viewer" id="viewer" role="dialog" aria-modal="true" aria-label="Wallpaper preview">
   <button class="icon-btn v-close" id="vClose" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
@@ -187,6 +208,8 @@
 
 <script>
 (() => {
+  // Save counter API (Cloudflare Worker). Leave empty to turn counts and notices off.
+  const STATS_API = '';
   const NEW_DAYS = 21;                          // "New" badge for wallpapers added in the last N days
   const $ = id => document.getElementById(id);
   const grid = $('grid'), viewer = $('viewer');
@@ -196,6 +219,7 @@
   let all = [], shown = [], theme = 'All', current = -1, lastFocus = null, newCutoff = '', tintMode = 'white';
   const THEMES = ['Peace','Strength','Hope','Trust','Faith','Grace','Comfort','Light','Joy & Praise','The Cross'];
   const blobs = new Map();
+  let counts = {}, recent = [];
 
   fetch('wallpapers.json', {cache: 'no-cache'}).then(r => r.json()).then(data => {
     // Bible order, so every version of the same verse sits side by side
@@ -208,6 +232,7 @@
     buildThemes();
     showToday();
     render();
+    loadStats();
     openFromHash();
   }).catch(() => { grid.innerHTML = '<p class="empty">Couldn’t load wallpapers.json.</p>'; });
 
@@ -252,6 +277,7 @@
           <p class="h-eyebrow">Verse of the day · ${new Date().toLocaleDateString([], {month: 'long', day: 'numeric'})}</p>
           <h2 class="h-ref">${esc(todayW.ref)}</h2>
           ${todayW.text ? `<p class="h-text">“${esc(todayW.text)}”</p>` : ''}
+          ${counts[todayW.id] ? `<p class="h-count">Saved ${fmt(counts[todayW.id])} time${counts[todayW.id] === 1 ? '' : 's'}</p>` : ''}
           <div class="h-actions">
             <button class="btn primary" data-hero>Preview &amp; save</button>
             <button class="btn" data-hero-share><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>Send to a friend</button>
@@ -264,7 +290,7 @@
           <img src="${w.thumb}" alt="${esc(w.text || w.ref)}" loading="lazy" decoding="async" onload="this.classList.add('loaded')">
           ${w.added > newCutoff && new Date(w.added).getTime() > cutoff ? '<span class="new">New</span>' : ''}
         </div>
-        <div class="meta"><span class="ref">${esc(w.ref)}</span></div>
+        <div class="meta"><span class="ref">${esc(w.ref)}</span>${countHTML(w.id)}</div>
       </button>`).join('');
     grid.querySelectorAll('img').forEach(img => { if (img.complete) img.classList.add('loaded'); });
     if (io) grid.querySelectorAll('.card').forEach(c => io.observe(c));
@@ -307,7 +333,7 @@
     hi.onload = () => { if (shown[current] === w) $('vImg').src = w.full; };
     $('vImg').alt = w.text || w.ref;
     $('vRef').textContent = w.ref;
-    $('vSub').textContent = w.text ? `“${w.text}”` : '';
+    setSub(w);
     $('vSaveLabel').textContent = isIOS ? 'Save to Photos' : 'Download';
     $('hint').textContent = isIOS ? 'Then in Photos: tap Share → Use as Wallpaper.' : 'Full resolution · 1320 × 2868';
     history.replaceState(null, '', '#' + w.id);
@@ -417,6 +443,7 @@
   }
   $('vSave').onclick = async () => {
     const w = shown[current];
+    recordSave(w);
     const blob = await blobs.get(w.id);
     const file = blob && new File([blob], `${w.id}.jpg`, {type: 'image/jpeg'});
     if (file && navigator.canShare && navigator.canShare({files: [file]}) && (isIOS || matchMedia('(pointer:coarse)').matches)) {
@@ -437,6 +464,90 @@
     document.body.appendChild(a); a.click(); a.remove();
     if (blob) setTimeout(() => URL.revokeObjectURL(a.href), 4000);
   };
+
+  /* ---------- logo shimmer on hover ---------- */
+  const glint = $('glint');
+  document.querySelector('.brand').addEventListener('mouseenter', () => {
+    glint.classList.remove('run'); void glint.offsetWidth;
+    glint.style.setProperty('--gd', '0s'); glint.classList.add('run');
+  });
+
+  /* ---------- save counts + live notices ---------- */
+  const DL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>';
+  function fmt(n) { return n >= 1e4 ? (n / 1e3).toFixed(0) + 'k' : n >= 1e3 ? (n / 1e3).toFixed(1).replace(/\.0$/, '') + 'k' : String(n); }
+  function countHTML(id) { const n = counts[id]; return n ? `<span class="cnt" title="Saved ${n} times">${DL}${fmt(n)}</span>` : ''; }
+  function refreshCounts() {
+    grid.querySelectorAll('.card[data-i]').forEach(c => {
+      const w = shown[+c.dataset.i], m = c.querySelector('.meta'); if (!w || !m) return;
+      m.querySelector('.cnt')?.remove(); m.insertAdjacentHTML('beforeend', countHTML(w.id));
+    });
+  }
+  async function loadStats() {
+    if (!STATS_API) return;
+    try {
+      const d = await fetch(STATS_API + '/stats').then(r => r.json());
+      counts = d.counts || {};
+      const now = d.now || Date.now(), byId = Object.fromEntries(all.map(w => [w.id, w]));
+      recent = (d.recent || []).filter(r => byId[r.id] && r.city && now - r.ts < 3 * 864e5)
+        .map(r => ({...r, w: byId[r.id], age: Date.now() - r.ts}));
+      render();
+      if (viewer.classList.contains('open') && shown[current]) setSub(shown[current]);
+      startToasts();
+    } catch {}
+  }
+  function recordSave(w) {
+    if (!STATS_API || !w) return;
+    counts[w.id] = (counts[w.id] || 0) + 1;
+    try { fetch(STATS_API + '/save', {method: 'POST', body: JSON.stringify({id: w.id}), headers: {'Content-Type': 'text/plain'}, keepalive: true}); } catch {}
+    refreshCounts();
+    if (shown[current] === w) setSub(w);
+  }
+  function setSub(w) {
+    const n = counts[w.id];
+    $('vSub').textContent = [w.text ? `“${w.text}”` : '', n ? `Saved ${fmt(n)} time${n === 1 ? '' : 's'}` : ''].filter(Boolean).join('  ·  ');
+  }
+  // Real recent saves only; a few per visit, spaced out. Nothing shows if nobody has saved lately.
+  const MAX_TOASTS = 5;
+  let toastTimer = null, shownToasts = 0, toastOff = false;
+  try { toastOff = sessionStorage.getItem('eng-toast-off') === '1'; } catch {}
+  function startToasts() {
+    if (toastOff || !recent.length || toastTimer) return;
+    toastTimer = setTimeout(nextToast, 9000 + Math.random() * 7000);
+  }
+  function nextToast() {
+    toastTimer = null;
+    if (toastOff || shownToasts >= Math.min(MAX_TOASTS, recent.length)) return;
+    if (viewer.classList.contains('open') || document.hidden) { toastTimer = setTimeout(nextToast, 8000); return; }
+    const r = recent[shownToasts++];
+    const place = r.country && r.country !== 'US' ? `${r.city}, ${regionName(r.country)}` : `${r.city}${r.region ? ', ' + r.region : ''}`;
+    $('toastImg').src = r.w.thumb;
+    $('toastT1').innerHTML = `Someone in <b>${esc(place)}</b> saved`;
+    $('toastT2').textContent = r.w.ref;
+    $('toastT3').textContent = ago(r.age + (Date.now() - pageStart));
+    $('toast').dataset.id = r.w.id;
+    $('toast').classList.add('show');
+    setTimeout(() => $('toast').classList.remove('show'), 6500);
+    toastTimer = setTimeout(nextToast, 35000 + Math.random() * 35000);
+  }
+  const pageStart = Date.now();
+  function ago(ms) {
+    const m = Math.round(ms / 6e4);
+    if (m < 2) return 'just now';
+    if (m < 60) return `${m} minutes ago`;
+    const h = Math.round(m / 60);
+    if (h < 24) return `${h} hour${h === 1 ? '' : 's'} ago`;
+    const d = Math.round(h / 24); return `${d} day${d === 1 ? '' : 's'} ago`;
+  }
+  function regionName(cc) { try { return new Intl.DisplayNames(['en'], {type: 'region'}).of(cc); } catch { return cc; } }
+  $('toast').addEventListener('click', e => {
+    if (e.target.closest('#toastX')) {
+      toastOff = true; clearTimeout(toastTimer); $('toast').classList.remove('show');
+      try { sessionStorage.setItem('eng-toast-off', '1'); } catch {}
+      return;
+    }
+    const w = all.find(x => x.id === $('toast').dataset.id);
+    if (w) { $('toast').classList.remove('show'); openWallpaper(w); }
+  });
 
   function esc(s) { return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 })();
