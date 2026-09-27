@@ -19,7 +19,7 @@
 <style>
   :root{
     --bg:#0f0e0c; --bg-2:#181613; --line:#2a2622; --text:#ece4d3; --muted:#9c9384;
-    --accent:#d9a55b; --radius:22px; --gutter:clamp(16px,7vw,140px);
+    --accent:#d9a55b; --radius:22px; --gutter:clamp(16px,3.5vw,56px);
   }
   *{box-sizing:border-box}
   html{-webkit-text-size-adjust:100%}
@@ -38,7 +38,7 @@
   .lede{text-wrap:pretty;color:var(--muted);max-width:520px;margin:18px auto 0;font-size:16px}
 
   /* ---------- grid ---------- */
-  main{max-width:1400px;margin:0 auto;padding:12px var(--gutter) 80px}
+  main{max-width:1840px;margin:0 auto;padding:12px var(--gutter) 80px}
   .grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:clamp(14px,1.8vw,24px)}
   @media (max-width:1180px){.grid{grid-template-columns:repeat(5,minmax(0,1fr))}}
   @media (max-width:980px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
