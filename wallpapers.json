@@ -1,5 +1,25 @@
 [
   {
+    "id": "1-peter-5-7--golden-hour",
+    "ref": "1 Peter 5:7",
+    "style": "Golden Hour",
+    "text": "Cast all your anxiety on Him because He cares for you.",
+    "added": "2026-09-27",
+    "featured": false,
+    "full": "full/1-peter-5-7--golden-hour.jpg",
+    "thumb": "thumbs/1-peter-5-7--golden-hour.webp"
+  },
+  {
+    "id": "2-corinthians-12-9--modern-collage",
+    "ref": "2 Corinthians 12:9",
+    "style": "Modern Collage",
+    "text": "My grace is sufficient for you, for my power is made perfect in weakness.",
+    "added": "2026-09-27",
+    "featured": false,
+    "full": "full/2-corinthians-12-9--modern-collage.jpg",
+    "thumb": "thumbs/2-corinthians-12-9--modern-collage.webp"
+  },
+  {
     "id": "2-corinthians-5-7--noir",
     "ref": "2 Corinthians 5:7",
     "style": "Noir",
@@ -28,6 +48,16 @@
     "featured": false,
     "full": "full/acts-17-28--golden-hour--2.jpg",
     "thumb": "thumbs/acts-17-28--golden-hour--2.webp"
+  },
+  {
+    "id": "colossians-3-2--street-art",
+    "ref": "Colossians 3:2",
+    "style": "Street Art",
+    "text": "Set your minds on things above, not on earthly things.",
+    "added": "2026-09-27",
+    "featured": false,
+    "full": "full/colossians-3-2--street-art.jpg",
+    "thumb": "thumbs/colossians-3-2--street-art.webp"
   },
   {
     "id": "colossians-3-2--surreal",
@@ -60,6 +90,16 @@
     "thumb": "thumbs/isaiah-58-11--modern-collage.webp"
   },
   {
+    "id": "jeremiah-29-11--golden-hour",
+    "ref": "Jeremiah 29:11",
+    "style": "Golden Hour",
+    "text": "For I know the plans I have for you, declares the Lord. Good plans, to give you hope and a future.",
+    "added": "2026-09-27",
+    "featured": false,
+    "full": "full/jeremiah-29-11--golden-hour.jpg",
+    "thumb": "thumbs/jeremiah-29-11--golden-hour.webp"
+  },
+  {
     "id": "jeremiah-29-11--scrapbook",
     "ref": "Jeremiah 29:11",
     "style": "Scrapbook",
@@ -80,6 +120,26 @@
     "thumb": "thumbs/jeremiah-29-11--swiss-modern.webp"
   },
   {
+    "id": "john-1-5--cinematic",
+    "ref": "John 1:5",
+    "style": "Cinematic",
+    "text": "The light shines in the darkness, and the darkness has not overcome it.",
+    "added": "2026-09-27",
+    "featured": false,
+    "full": "full/john-1-5--cinematic.jpg",
+    "thumb": "thumbs/john-1-5--cinematic.webp"
+  },
+  {
+    "id": "john-19-30--golden-hour",
+    "ref": "John 19:30",
+    "style": "Golden Hour",
+    "text": "It is finished.",
+    "added": "2026-09-27",
+    "featured": false,
+    "full": "full/john-19-30--golden-hour.jpg",
+    "thumb": "thumbs/john-19-30--golden-hour.webp"
+  },
+  {
     "id": "john-4-14--cinematic",
     "ref": "John 4:14",
     "style": "Cinematic",
@@ -90,6 +150,16 @@
     "thumb": "thumbs/john-4-14--cinematic.webp"
   },
   {
+    "id": "john-4-14--minimal",
+    "ref": "John 4:14",
+    "style": "Minimal",
+    "text": "Living water.",
+    "added": "2026-09-27",
+    "featured": false,
+    "full": "full/john-4-14--minimal.jpg",
+    "thumb": "thumbs/john-4-14--minimal.webp"
+  },
+  {
     "id": "john-8-36--americana",
     "ref": "John 8:36",
     "style": "Americana",
@@ -98,6 +168,26 @@
     "featured": false,
     "full": "full/john-8-36--americana.jpg",
     "thumb": "thumbs/john-8-36--americana.webp"
+  },
+  {
+    "id": "joshua-1-9--grunge",
+    "ref": "Joshua 1:9",
+    "style": "Grunge",
+    "text": "Be strong and courageous. Do not be afraid. Do not be discouraged, for the Lord your God will be with you wherever you go.",
+    "added": "2026-09-27",
+    "featured": false,
+    "full": "full/joshua-1-9--grunge.jpg",
+    "thumb": "thumbs/joshua-1-9--grunge.webp"
+  },
+  {
+    "id": "joshua-1-9--modern-collage",
+    "ref": "Joshua 1:9",
+    "style": "Modern Collage",
+    "text": "Be strong and courageous. Do not be afraid; do not be discouraged, for the Lord your God will be with you wherever you go.",
+    "added": "2026-09-27",
+    "featured": false,
+    "full": "full/joshua-1-9--modern-collage.jpg",
+    "thumb": "thumbs/joshua-1-9--modern-collage.webp"
   },
   {
     "id": "joshua-1-9--street-art",
@@ -120,6 +210,16 @@
     "thumb": "thumbs/lamentations-3-22--golden-hour.webp"
   },
   {
+    "id": "lamentations-3-22-23--film",
+    "ref": "Lamentations 3:22-23",
+    "style": "Film",
+    "text": "His mercies are new every morning. The steadfast love of the Lord never ceases; great is Your faithfulness.",
+    "added": "2026-09-27",
+    "featured": false,
+    "full": "full/lamentations-3-22-23--film.jpg",
+    "thumb": "thumbs/lamentations-3-22-23--film.webp"
+  },
+  {
     "id": "lamentations-3-23--art-deco",
     "ref": "Lamentations 3:23",
     "style": "Art Deco",
@@ -140,6 +240,26 @@
     "thumb": "thumbs/lamentations-3-23--vintage-travel.webp"
   },
   {
+    "id": "matthew-11-28--vintage-travel",
+    "ref": "Matthew 11:28",
+    "style": "Vintage Travel",
+    "text": "Come to me, all who are weary and burdened, and I will give you rest.",
+    "added": "2026-09-27",
+    "featured": false,
+    "full": "full/matthew-11-28--vintage-travel.jpg",
+    "thumb": "thumbs/matthew-11-28--vintage-travel.webp"
+  },
+  {
+    "id": "matthew-19-26--golden-hour",
+    "ref": "Matthew 19:26",
+    "style": "Golden Hour",
+    "text": "With God all things are possible.",
+    "added": "2026-09-27",
+    "featured": false,
+    "full": "full/matthew-19-26--golden-hour.jpg",
+    "thumb": "thumbs/matthew-19-26--golden-hour.webp"
+  },
+  {
     "id": "matthew-28-6--cinematic",
     "ref": "Matthew 28:6",
     "style": "Cinematic",
@@ -158,6 +278,36 @@
     "featured": false,
     "full": "full/matthew-5-16--retro-poster.jpg",
     "thumb": "thumbs/matthew-5-16--retro-poster.webp"
+  },
+  {
+    "id": "matthew-6-28--minimal",
+    "ref": "Matthew 6:28",
+    "style": "Minimal",
+    "text": "Consider the lilies.",
+    "added": "2026-09-27",
+    "featured": false,
+    "full": "full/matthew-6-28--minimal.jpg",
+    "thumb": "thumbs/matthew-6-28--minimal.webp"
+  },
+  {
+    "id": "matthew-6-33--golden-hour",
+    "ref": "Matthew 6:33",
+    "style": "Golden Hour",
+    "text": "Seek first the kingdom of God.",
+    "added": "2026-09-27",
+    "featured": false,
+    "full": "full/matthew-6-33--golden-hour.jpg",
+    "thumb": "thumbs/matthew-6-33--golden-hour.webp"
+  },
+  {
+    "id": "nehemiah-8-10--synthwave",
+    "ref": "Nehemiah 8:10",
+    "style": "Synthwave",
+    "text": "The joy of the Lord is my strength.",
+    "added": "2026-09-27",
+    "featured": false,
+    "full": "full/nehemiah-8-10--synthwave.jpg",
+    "thumb": "thumbs/nehemiah-8-10--synthwave.webp"
   },
   {
     "id": "philippians-4-13--modern-collage",
@@ -208,6 +358,16 @@
     "featured": false,
     "full": "full/psalm-121-2--blueprint.jpg",
     "thumb": "thumbs/psalm-121-2--blueprint.webp"
+  },
+  {
+    "id": "psalm-126-3--pop-art",
+    "ref": "Psalm 126:3",
+    "style": "Pop Art",
+    "text": "Great things He has done.",
+    "added": "2026-09-27",
+    "featured": false,
+    "full": "full/psalm-126-3--pop-art.jpg",
+    "thumb": "thumbs/psalm-126-3--pop-art.webp"
   },
   {
     "id": "psalm-150-6--psychedelic",
@@ -270,6 +430,16 @@
     "thumb": "thumbs/psalm-23-1--mid-century.webp"
   },
   {
+    "id": "psalm-27-1--grunge",
+    "ref": "Psalm 27:1",
+    "style": "Grunge",
+    "text": "The Lord is my light and my salvation; whom shall I fear?",
+    "added": "2026-09-27",
+    "featured": false,
+    "full": "full/psalm-27-1--grunge.jpg",
+    "thumb": "thumbs/psalm-27-1--grunge.webp"
+  },
+  {
     "id": "psalm-27-1--tattoo-flash",
     "ref": "Psalm 27:1",
     "style": "Tattoo Flash",
@@ -308,6 +478,16 @@
     "featured": false,
     "full": "full/psalm-28-7--golden-hour.jpg",
     "thumb": "thumbs/psalm-28-7--golden-hour.webp"
+  },
+  {
+    "id": "psalm-28-7--golden-hour--2",
+    "ref": "Psalm 28:7",
+    "style": "Golden Hour",
+    "text": "The Lord is my strength and my shield.",
+    "added": "2026-09-27",
+    "featured": false,
+    "full": "full/psalm-28-7--golden-hour--2.jpg",
+    "thumb": "thumbs/psalm-28-7--golden-hour--2.webp"
   },
   {
     "id": "psalm-34-18--illuminated",
@@ -370,6 +550,16 @@
     "thumb": "thumbs/psalm-46-10--ink-wash--2.webp"
   },
   {
+    "id": "psalm-46-10--line-art",
+    "ref": "Psalm 46:10",
+    "style": "Line Art",
+    "text": "Be still and know that I am God.",
+    "added": "2026-09-27",
+    "featured": false,
+    "full": "full/psalm-46-10--line-art.jpg",
+    "thumb": "thumbs/psalm-46-10--line-art.webp"
+  },
+  {
     "id": "psalm-46-10--stained-glass",
     "ref": "Psalm 46:10",
     "style": "Stained Glass",
@@ -398,5 +588,15 @@
     "featured": false,
     "full": "full/romans-12-2--comic-book.jpg",
     "thumb": "thumbs/romans-12-2--comic-book.webp"
+  },
+  {
+    "id": "romans-8-11--film",
+    "ref": "Romans 8:11",
+    "style": "Film",
+    "text": "The same power that raised Christ from the dead is living in you.",
+    "added": "2026-09-27",
+    "featured": false,
+    "full": "full/romans-8-11--film.jpg",
+    "thumb": "thumbs/romans-8-11--film.webp"
   }
 ]
