@@ -31,7 +31,7 @@ originals/        your source files (NOT committed; see .gitignore)
 
 Export originals at **1320 × 2868** if you can. The script warns when a file is smaller and would look soft.
 
-The left menu lists every verse, grouped by book in Bible order, and is built automatically from wallpapers.json.
+Wallpapers are shown in Bible order, so every version of the same verse sits side by side.
 Wallpapers added in the last 21 days get a "New" badge (change `NEW_DAYS` in index.html).
 
 ## Publishing on GitHub Pages
