@@ -1,5 +1,99 @@
 [
   {
+    "id": "1-peter-5-7--film",
+    "ref": "1 Peter 5:7",
+    "style": "Film",
+    "text": "Cast all your anxiety on Him because He cares for you.",
+    "added": "2026-09-28",
+    "featured": false,
+    "themes": [
+      "Peace",
+      "Comfort"
+    ],
+    "full": "full/1-peter-5-7--film.jpg",
+    "thumb": "thumbs/1-peter-5-7--film.webp"
+  },
+  {
+    "id": "1-thessalonians-5-18--autumn",
+    "ref": "1 Thessalonians 5:18",
+    "style": "Autumn",
+    "text": "Give thanks in all circumstances, for this is the will of God in Christ Jesus for you.",
+    "added": "2026-09-28",
+    "featured": false,
+    "themes": [
+      "Joy & Praise"
+    ],
+    "full": "full/1-thessalonians-5-18--autumn.jpg",
+    "thumb": "thumbs/1-thessalonians-5-18--autumn.webp"
+  },
+  {
+    "id": "isaiah-40-31--painterly",
+    "ref": "Isaiah 40:31",
+    "style": "Painterly",
+    "text": "But those who wait on the Lord shall renew their strength.",
+    "added": "2026-09-28",
+    "featured": false,
+    "themes": [
+      "Strength",
+      "Hope"
+    ],
+    "full": "full/isaiah-40-31--painterly.jpg",
+    "thumb": "thumbs/isaiah-40-31--painterly.webp"
+  },
+  {
+    "id": "jeremiah-29-11--surreal",
+    "ref": "Jeremiah 29:11",
+    "style": "Surreal",
+    "text": "For I know the plans I have for you, declares the Lord, plans to prosper you and not to harm you, plans to give you hope and a future.",
+    "added": "2026-09-28",
+    "featured": false,
+    "themes": [
+      "Hope"
+    ],
+    "full": "full/jeremiah-29-11--surreal.jpg",
+    "thumb": "thumbs/jeremiah-29-11--surreal.webp"
+  },
+  {
+    "id": "matthew-6-33--autumn",
+    "ref": "Matthew 6:33",
+    "style": "Autumn",
+    "text": "Seek first the kingdom of God and his righteousness, and all these things will be added to you.",
+    "added": "2026-09-28",
+    "featured": false,
+    "themes": [
+      "Faith"
+    ],
+    "full": "full/matthew-6-33--autumn.jpg",
+    "thumb": "thumbs/matthew-6-33--autumn.webp"
+  },
+  {
+    "id": "psalm-28-7--painterly",
+    "ref": "Psalm 28:7",
+    "style": "Painterly",
+    "text": "The Lord is my strength and my shield; my heart trusts in Him, and I am helped.",
+    "added": "2026-09-28",
+    "featured": false,
+    "themes": [
+      "Strength",
+      "Trust"
+    ],
+    "full": "full/psalm-28-7--painterly.jpg",
+    "thumb": "thumbs/psalm-28-7--painterly.webp"
+  },
+  {
+    "id": "psalm-29-11--golden-hour",
+    "ref": "Psalm 29:11",
+    "style": "Golden Hour",
+    "text": "The Lord gives peace to His people; the Lord blesses His people with peace.",
+    "added": "2026-09-28",
+    "featured": false,
+    "themes": [
+      "Peace"
+    ],
+    "full": "full/psalm-29-11--golden-hour.jpg",
+    "thumb": "thumbs/psalm-29-11--golden-hour.webp"
+  },
+  {
     "id": "1-peter-5-7--golden-hour",
     "ref": "1 Peter 5:7",
     "style": "Golden Hour",
