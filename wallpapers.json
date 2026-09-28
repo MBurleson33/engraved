@@ -319,20 +319,6 @@
     "thumb": "thumbs/lamentations-3-22-23--film.webp"
   },
   {
-    "id": "lamentations-3-23--art-deco",
-    "ref": "Lamentations 3:23",
-    "style": "Art Deco",
-    "text": "His mercies are new every morning.",
-    "added": "2026-09-27",
-    "featured": false,
-    "themes": [
-      "Hope",
-      "Grace"
-    ],
-    "full": "full/lamentations-3-23--art-deco.jpg",
-    "thumb": "thumbs/lamentations-3-23--art-deco.webp"
-  },
-  {
     "id": "lamentations-3-23--vintage-travel",
     "ref": "Lamentations 3:23",
     "style": "Vintage Travel",
