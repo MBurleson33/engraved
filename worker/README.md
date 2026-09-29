@@ -19,3 +19,15 @@ No IP addresses or personal data are stored — only wallpaper id, approximate c
    `const STATS_API = 'https://engraved-stats.<your-subdomain>.workers.dev';` (no trailing slash).
 
 If you later move the site to a custom domain, update `SITE` at the top of `worker.js`.
+
+## Comments (added later)
+
+1. **Tables:** D1 → `engraved` → Console → paste the "Comments" block at the bottom of `schema.sql` → Execute.
+2. **Turnstile:** dashboard → Turnstile → Add widget → name `Engraved`, hostname `mburleson33.github.io`, mode **Managed** → Create. Copy the **Site Key** and **Secret Key**.
+3. **Worker secrets:** Worker → Settings → Variables and Secrets → Add → type **Secret**:
+   - `TURNSTILE_SECRET` = the Turnstile Secret Key
+   - `ADMIN_KEY` = a long random string (your admin password)
+4. **Worker code:** Edit code → replace everything with the new `worker.js` → Deploy.
+5. **Site:** put the Turnstile **Site Key** in `TURNSTILE_SITEKEY` in `index.html`.
+
+Review comments at `/engraved/admin.html` using your `ADMIN_KEY`.

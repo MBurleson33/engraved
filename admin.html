@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Engraved · Comments</title>
+<link rel="icon" href="brand/engraved-icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0f0e0c;--bg-2:#181613;--line:#2a2622;--text:#ece4d3;--muted:#9c9384;--accent:#d9a55b}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 Inter,system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased}
+  button,input{font:inherit;color:inherit}
+  .wrap{max-width:760px;margin:0 auto;padding:max(24px,env(safe-area-inset-top)) 16px 60px}
+  header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px}
+  header img{height:26px}
+  h1{font:600 13px Inter,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin:0}
+  .tabs{display:flex;gap:8px;margin-bottom:18px}
+  .tab{border:1px solid var(--line);background:var(--bg-2);border-radius:999px;padding:8px 16px;font-size:14px;cursor:pointer}
+  .tab[aria-pressed="true"]{background:var(--text);color:var(--bg);border-color:var(--text);font-weight:600}
+  .tab .n{margin-left:6px;background:var(--accent);color:#1b140a;border-radius:999px;padding:0 7px;font-size:12px;font-weight:700}
+  .item{display:grid;grid-template-columns:56px 1fr;gap:14px;padding:16px;background:var(--bg-2);border:1px solid var(--line);border-radius:16px;margin-bottom:12px}
+  .item img{width:56px;aspect-ratio:1320/2868;object-fit:cover;border-radius:8px;background:#222}
+  .top{display:flex;justify-content:space-between;gap:10px;font-size:13px;color:var(--muted)}
+  .ref{font-family:"Cormorant Garamond",Georgia,serif;font-size:19px;font-weight:600;color:var(--text)}
+  .who{font-weight:600;color:var(--text);margin-top:6px;font-size:14px}
+  .body{margin:2px 0 12px;white-space:pre-wrap;overflow-wrap:anywhere;color:#ddd4c3}
+  .acts{display:flex;gap:8px}
+  .acts button{border:1px solid var(--line);background:#201d19;border-radius:999px;padding:8px 16px;font-size:14px;cursor:pointer}
+  .acts .ok{background:#2f4a2a;border-color:#3f6437;color:#d8f0cf;font-weight:600}
+  .acts .del:hover{border-color:#8a3a2c;color:#f0b3a6}
+  .empty{color:var(--muted);text-align:center;padding:50px 0}
+  .login{max-width:360px;margin:12vh auto 0;text-align:center}
+  .login input{width:100%;background:var(--bg-2);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:14px 0 10px;outline:none}
+  .login input:focus{border-color:var(--accent)}
+  .login button{width:100%;border:0;background:var(--text);color:var(--bg);border-radius:999px;padding:12px;font-weight:600;cursor:pointer}
+  .err{color:#e59a86;font-size:13px;min-height:20px}
+  .link{background:none;border:0;color:var(--muted);font-size:13px;cursor:pointer;text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div id="login" class="login" hidden>
+    <img src="brand/engraved-logo.svg" alt="Engraved" style="width:220px">
+    <p style="color:var(--muted);margin:18px 0 0">Enter your admin key to review comments.</p>
+    <input id="key" type="password" placeholder="Admin key" autocomplete="current-password">
+    <button id="go">Unlock</button>
+    <p class="err" id="lerr"></p>
+  </div>
+
+  <div id="app" hidden>
+    <header><img src="brand/engraved-logo.svg" alt="Engraved"><h1>Comments</h1></header>
+    <div class="tabs">
+      <button class="tab" data-s="pending" aria-pressed="true">Waiting<span class="n" id="pn" hidden></span></button>
+      <button class="tab" data-s="approved" aria-pressed="false">Approved</button>
+    </div>
+    <div id="list"></div>
+    <p style="text-align:center;margin-top:30px"><button class="link" id="out">Lock this device</button></p>
+  </div>
+</div>
+<script>
+(() => {
+  const API = 'https://engraved-stats.burleson-matthew.workers.dev';
+  const $ = id => document.getElementById(id);
+  let key = '', status = 'pending', walls = {};
+  try { key = localStorage.getItem('eng-admin') || ''; } catch {}
+  fetch('wallpapers.json', {cache: 'no-cache'}).then(r => r.json()).then(d => { walls = Object.fromEntries(d.map(w => [w.id, w])); if (key) load(); }).catch(() => {});
+
+  function show(which) { $('login').hidden = which !== 'login'; $('app').hidden = which !== 'app'; }
+  async function api(path, opts = {}) {
+    const r = await fetch(API + path, {...opts, headers: {'Content-Type': 'application/json', 'X-Admin-Key': key}});
+    if (r.status === 401) throw new Error('auth');
+    return r.json();
+  }
+  async function load() {
+    try {
+      const d = await api('/admin/comments?status=' + status);
+      show('app');
+      $('pn').hidden = !d.pending; $('pn').textContent = d.pending;
+      const list = d.comments || [];
+      $('list').innerHTML = list.length ? list.map(c => {
+        const w = walls[c.id] || {};
+        return `<div class="item" data-cid="${c.cid}">
+          <a href="./#${esc(c.id)}" target="_blank"><img src="${w.thumb || ''}" alt=""></a>
+          <div>
+            <div class="top"><span class="ref">${esc(w.ref || c.id)}</span><span>${new Date(c.ts).toLocaleString([], {month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit'})}</span></div>
+            <div style="font-size:12px;color:var(--muted)">${esc(w.style || '')}</div>
+            <div class="who">${esc(c.name || 'Anonymous')}</div>
+            <p class="body">${esc(c.body)}</p>
+            <div class="acts">${c.status === 'pending' ? '<button class="ok" data-a="approve">Approve</button>' : ''}<button class="del" data-a="delete">Delete</button></div>
+          </div></div>`;
+      }).join('') : `<p class="empty">${status === 'pending' ? 'Nothing waiting. 🙌' : 'No approved comments yet.'}</p>`;
+    } catch (e) {
+      if (e.message === 'auth') { key = ''; try { localStorage.removeItem('eng-admin'); } catch {} show('login'); $('lerr').textContent = 'That key didn’t work.'; }
+      else { show('app'); $('list').innerHTML = '<p class="empty">Couldn’t reach the server. Try again in a moment.</p>'; }
+    }
+  }
+  $('list').addEventListener('click', async e => {
+    const b = e.target.closest('button[data-a]'); if (!b) return;
+    const item = b.closest('.item'), cid = +item.dataset.cid;
+    if (b.dataset.a === 'delete' && !confirmDelete(b)) return;
+    b.disabled = true;
+    try { await api('/admin/comments', {method: 'POST', body: JSON.stringify({cid, action: b.dataset.a})}); item.remove(); load(); }
+    catch { b.disabled = false; }
+  });
+  // two-tap delete instead of a browser confirm dialog
+  function confirmDelete(b) {
+    if (b.dataset.armed) return true;
+    b.dataset.armed = '1'; b.textContent = 'Tap again to delete';
+    setTimeout(() => { delete b.dataset.armed; b.textContent = 'Delete'; }, 2500);
+    return false;
+  }
+  document.querySelectorAll('.tab').forEach(t => t.onclick = () => {
+    status = t.dataset.s; document.querySelectorAll('.tab').forEach(x => x.setAttribute('aria-pressed', x === t)); load();
+  });
+  $('go').onclick = () => { key = $('key').value.trim(); if (!key) return; try { localStorage.setItem('eng-admin', key); } catch {} $('lerr').textContent = ''; load(); };
+  $('key').addEventListener('keydown', e => { if (e.key === 'Enter') $('go').click(); });
+  $('out').onclick = () => { key = ''; try { localStorage.removeItem('eng-admin'); } catch {} show('login'); };
+  if (!key) show('login');
+  function esc(s) { return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+})();
+</script>
+</body>
+</html>

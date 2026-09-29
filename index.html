@@ -204,6 +204,38 @@
   .v-prev{left:clamp(12px,4vw,48px)} .v-next{right:clamp(12px,4vw,48px)}
   @media (max-width:640px){.v-prev,.v-next{display:none}.v-stage{height:min(64vh,700px)}}
   body.locked{overflow:hidden}
+  /* ---------- comments panel ---------- */
+  .cpanel{position:fixed;z-index:25;top:0;right:0;bottom:0;width:min(420px,100vw);background:#16140f;border-left:1px solid var(--line);display:flex;flex-direction:column;transform:translateX(102%);transition:transform .32s cubic-bezier(.2,.7,.2,1);box-shadow:-30px 0 80px rgba(0,0,0,.55)}
+  .cpanel.open{transform:none}
+  .c-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:max(18px,env(safe-area-inset-top)) 20px 14px;border-bottom:1px solid var(--line)}
+  .c-head h3{margin:0;font-family:"Cormorant Garamond",Georgia,serif;font-size:24px;font-weight:600;line-height:1.1}
+  .c-head p{margin:2px 0 0;font-size:12px;color:var(--muted)}
+  .c-head .icon-btn{position:static;flex:none}
+  .c-list{flex:1;overflow-y:auto;padding:8px 20px 12px;overscroll-behavior:contain}
+  .c-item{padding:14px 0;border-bottom:1px solid #221f1b}
+  .c-item:last-child{border-bottom:0}
+  .c-who{display:flex;justify-content:space-between;gap:8px;font-size:13px;margin-bottom:4px}
+  .c-who b{font-weight:600}
+  .c-who span{color:var(--muted);font-size:12px;white-space:nowrap}
+  .c-body{margin:0;font-size:14.5px;line-height:1.5;color:#ddd4c3;white-space:pre-wrap;overflow-wrap:anywhere}
+  .c-empty{color:var(--muted);font-size:14px;text-align:center;padding:36px 12px;font-family:"Cormorant Garamond",Georgia,serif;font-style:italic;font-size:18px}
+  .c-form{border-top:1px solid var(--line);padding:14px 20px max(16px,env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:9px;background:#13110e}
+  .c-form input,.c-form textarea{width:100%;background:var(--bg-2);border:1px solid var(--line);border-radius:12px;padding:10px 12px;color:var(--text);font:inherit;font-size:15px;outline:none;resize:none}
+  .c-form input:focus,.c-form textarea:focus{border-color:var(--accent)}
+  .c-form textarea{min-height:78px}
+  .c-form .trap{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+  .c-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .c-row small{color:var(--muted);font-size:11.5px;line-height:1.35}
+  .c-msg{font-size:13px;min-height:0;margin:0}
+  .c-msg.ok{color:#a8c79a} .c-msg.err{color:#e59a86}
+  #cTs{min-height:0}
+  .cscrim{position:fixed;inset:0;z-index:24;background:rgba(0,0,0,.45);display:none}
+  .cscrim.open{display:block}
+  @media (max-width:640px){
+    .cpanel{top:auto;left:0;width:100%;height:86vh;border-left:0;border-top:1px solid var(--line);border-radius:22px 22px 0 0;transform:translateY(102%)}
+    .cpanel.open{transform:none}
+    .c-form input,.c-form textarea{font-size:16px}
+  }
   @media (max-width:640px){:root{--gutter:16px}}
 </style>
 </head>
@@ -257,6 +289,26 @@
   <button class="x" id="toastX" aria-label="Hide these notices">×</button>
 </div>
 
+<div class="cscrim" id="cScrim"></div>
+<aside class="cpanel" id="cpanel" role="dialog" aria-modal="true" aria-labelledby="cTitle" aria-hidden="true">
+  <div class="c-head">
+    <div><h3 id="cTitle">Comments</h3><p id="cSub"></p></div>
+    <button class="icon-btn" id="cClose" aria-label="Close comments"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </div>
+  <div class="c-list" id="cList"></div>
+  <form class="c-form" id="cForm" novalidate>
+    <input id="cName" maxlength="40" placeholder="Your first name (optional)" autocomplete="given-name">
+    <textarea id="cBody" maxlength="500" placeholder="Share what this verse means to you…" required></textarea>
+    <input class="trap" id="cSite" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <div id="cTs"></div>
+    <p class="c-msg" id="cMsg" role="status"></p>
+    <div class="c-row">
+      <small>Comments are reviewed before they appear. Please keep them kind.</small>
+      <button class="btn primary" id="cSend" type="submit">Post</button>
+    </div>
+  </form>
+</aside>
+
 <div class="viewer" id="viewer" role="dialog" aria-modal="true" aria-label="Wallpaper preview">
   <button class="icon-btn v-close" id="vClose" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
   <button class="icon-btn v-prev" id="vPrev" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button>
@@ -279,6 +331,7 @@
     <button class="btn" id="vLock" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5.5h4"/></svg>Lock screen</button>
     <button class="btn" id="vShare"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>Send to a friend</button>
     <button class="btn heart" id="vFav" aria-pressed="false" aria-label="Add to favorites"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-9.2-9.3C1.6 7.8 3.9 4.5 7.3 4.5c2 0 3.6 1.1 4.7 2.7 1.1-1.6 2.7-2.7 4.7-2.7 3.4 0 5.7 3.3 4.5 6.7-1.7 4.7-9.2 9.3-9.2 9.3z"/></svg><span id="vFavLabel">Favorite</span></button>
+    <button class="btn" id="vComments" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg><span id="vCommentsLabel">Comments</span></button>
   </div>
   <div class="tints" id="tints" role="group" aria-label="Clock color">Clock
     <button class="tint" style="--c:#fff" data-t="white" aria-label="White" aria-pressed="true"></button>
@@ -292,6 +345,8 @@
 (() => {
   // Save counter API (Cloudflare Worker). Leave empty to turn counts and notices off.
   const STATS_API = 'https://engraved-stats.burleson-matthew.workers.dev';
+  // Cloudflare Turnstile site key (public). Leave empty to hide comments.
+  const TURNSTILE_SITEKEY = '';
   const NEW_ROW_DAYS = 14;                      // "New this week" row shows wallpapers added in the last N days
   const $ = id => document.getElementById(id);
   const grid = $('grid'), viewer = $('viewer');
@@ -301,7 +356,7 @@
   let all = [], shown = [], groups = [], theme = 'All', sortBy = 'bible', query = '', current = -1, lastFocus = null, newCutoff = '', tintMode = 'white';
   const THEMES = ['Peace','Strength','Hope','Trust','Faith','Grace','Comfort','Light','Joy & Praise','The Cross'];
   const blobs = new Map();
-  let counts = {}, recent = [];
+  let counts = {}, recent = [], ccounts = {};
 
   fetch('wallpapers.json', {cache: 'no-cache'}).then(r => r.json()).then(data => {
     // Bible order, so every version of the same verse sits side by side
@@ -526,6 +581,8 @@
     setSub(w);
     setDots(w);
     setFav(w);
+    setCommentsBtn(w);
+    if ($('cpanel').classList.contains('open')) loadComments(w);
     markSeen([w.id]);
     $('vSaveLabel').textContent = isIOS ? 'Save to Photos' : 'Download';
     $('hint').textContent = isIOS ? 'Then in Photos: tap Share → Use as Wallpaper.' : 'Full resolution · 1320 × 2868';
@@ -535,6 +592,7 @@
     if (tintMode === 'auto') applyTint();
   }
   function close() {
+    closeComments();
     viewer.classList.remove('open'); document.body.classList.remove('locked');
     history.replaceState(null, '', location.pathname + location.search);
     if (lastFocus) lastFocus.focus();
@@ -551,6 +609,8 @@
   viewer.addEventListener('click', e => { if (e.target === viewer) close(); });
   document.addEventListener('keydown', e => {
     if (!viewer.classList.contains('open')) return;
+    if (e.key === 'Escape' && $('cpanel').classList.contains('open')) return closeComments();
+    if (/^(INPUT|TEXTAREA)$/.test(e.target.tagName) || $('cpanel').classList.contains('open')) return;
     if (e.key === 'Escape') close();
     if (e.key === 'ArrowLeft') open(current - 1);
     if (e.key === 'ArrowRight') open(current + 1);
@@ -736,11 +796,12 @@
     try {
       const d = await fetch(STATS_API + '/stats').then(r => r.json());
       counts = d.counts || {};
+      ccounts = d.comments || {};
       const now = d.now || Date.now(), byId = Object.fromEntries(all.map(w => [w.id, w]));
       recent = (d.recent || []).filter(r => byId[r.id] && r.city && now - r.ts < 3 * 864e5)
         .map(r => ({...r, w: byId[r.id], age: Date.now() - r.ts}));
       render();
-      if (viewer.classList.contains('open') && shown[current]) setSub(shown[current]);
+      if (viewer.classList.contains('open') && shown[current]) { setSub(shown[current]); setCommentsBtn(shown[current]); }
       startToasts();
     } catch {}
   }
@@ -797,6 +858,93 @@
     const w = all.find(x => x.id === $('toast').dataset.id);
     if (w) { $('toast').classList.remove('show'); openWallpaper(w); }
   });
+
+  /* ---------- comments ---------- */
+  const COMMENTS_ON = !!(STATS_API && TURNSTILE_SITEKEY);
+  let tsWidget = null, tsToken = '', tsLoading = null, cFor = null;
+  function setCommentsBtn(w) {
+    $('vComments').hidden = !COMMENTS_ON;
+    const n = ccounts[w.id] || 0;
+    $('vCommentsLabel').textContent = n ? `Comments · ${n}` : 'Comments';
+  }
+  function loadTurnstile() {
+    if (window.turnstile) return Promise.resolve();
+    if (!tsLoading) tsLoading = new Promise((res, rej) => {
+      const sc = document.createElement('script');
+      sc.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+      sc.async = true; sc.onload = res; sc.onerror = rej;
+      document.head.appendChild(sc);
+    });
+    return tsLoading;
+  }
+  async function mountTurnstile() {
+    try {
+      await loadTurnstile();
+      if (tsWidget !== null) return;
+      tsWidget = turnstile.render('#cTs', {sitekey: TURNSTILE_SITEKEY, theme: 'dark', size: 'flexible', appearance: 'interaction-only',
+        callback: t => { tsToken = t; }, 'expired-callback': () => { tsToken = ''; }, 'error-callback': () => { tsToken = ''; }});
+    } catch { cMsg('Couldn’t load the human check. Please refresh and try again.', 'err'); }
+  }
+  function cMsg(text, kind) { $('cMsg').textContent = text || ''; $('cMsg').className = 'c-msg' + (kind ? ' ' + kind : ''); }
+  function ago2(ts) {
+    const m = Math.round((Date.now() - ts) / 6e4);
+    if (m < 60) return m < 2 ? 'just now' : `${m}m ago`;
+    const h = Math.round(m / 60); if (h < 24) return `${h}h ago`;
+    const d = Math.round(h / 24); if (d < 30) return `${d}d ago`;
+    return new Date(ts).toLocaleDateString([], {month: 'short', day: 'numeric', year: 'numeric'});
+  }
+  async function loadComments(w) {
+    cFor = w;
+    $('cTitle').textContent = w.ref;
+    $('cSub').textContent = w.style ? `${w.style} · comments` : 'Comments';
+    $('cList').innerHTML = '<p class="c-empty">Loading…</p>';
+    try {
+      const d = await fetch(`${STATS_API}/comments?id=${encodeURIComponent(w.id)}`).then(r => r.json());
+      if (cFor !== w) return;
+      const list = d.comments || [];
+      ccounts[w.id] = list.length; setCommentsBtn(w);
+      $('cList').innerHTML = list.length ? list.map(c => `
+        <div class="c-item"><div class="c-who"><b>${esc(c.name || 'Anonymous')}</b><span>${ago2(c.ts)}</span></div><p class="c-body">${esc(c.body)}</p></div>`).join('')
+        : '<p class="c-empty">No comments yet. Be the first to share what this verse means to you.</p>';
+    } catch { $('cList').innerHTML = '<p class="c-empty">Couldn’t load comments right now.</p>'; }
+  }
+  function openComments() {
+    const w = shown[current]; if (!w || !COMMENTS_ON) return;
+    $('cpanel').classList.add('open'); $('cScrim').classList.add('open'); $('cpanel').setAttribute('aria-hidden', 'false');
+    cMsg('');
+    loadComments(w); mountTurnstile();
+    setTimeout(() => $('cBody').focus({preventScroll: true}), 350);
+  }
+  function closeComments() {
+    if (!$('cpanel').classList.contains('open')) return;
+    $('cpanel').classList.remove('open'); $('cScrim').classList.remove('open'); $('cpanel').setAttribute('aria-hidden', 'true');
+    $('vComments').focus({preventScroll: true});
+  }
+  $('vComments').onclick = openComments;
+  $('cClose').onclick = closeComments;
+  $('cScrim').onclick = closeComments;
+  $('cForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const w = cFor; if (!w) return;
+    const body = $('cBody').value.trim();
+    if (body.length < 2) return cMsg('Please write a little more.', 'err');
+    if (!tsToken && window.turnstile && tsWidget !== null) { try { tsToken = turnstile.getResponse(tsWidget) || ''; } catch {} }
+    if (!tsToken) return cMsg('One moment — checking you’re human… then tap Post again.', 'err');
+    $('cSend').disabled = true; cMsg('Posting…');
+    try {
+      const r = await fetch(`${STATS_API}/comments`, {method: 'POST', headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({id: w.id, name: $('cName').value, body, token: tsToken, website: $('cSite').value})});
+      const d = await r.json().catch(() => ({}));
+      if (d.ok) {
+        $('cBody').value = '';
+        cMsg('Thank you! Your comment will appear once it’s been reviewed.', 'ok');
+      } else cMsg(d.error || 'Something went wrong. Please try again.', 'err');
+    } catch { cMsg('Couldn’t post right now. Please try again.', 'err'); }
+    $('cSend').disabled = false;
+    tsToken = ''; try { turnstile.reset(tsWidget); } catch {}
+  });
+  try { const n = localStorage.getItem('eng-name'); if (n) $('cName').value = n; } catch {}
+  $('cName').addEventListener('change', () => { try { localStorage.setItem('eng-name', $('cName').value.trim()); } catch {} });
 
   function esc(s) { return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 })();
