@@ -94,7 +94,7 @@
 
   /* ---------- badges ---------- */
   .card .frame .badge-new{position:absolute;top:10px;right:10px;background:var(--accent);color:#1b140a;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:4px 8px;border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,.35)}
-  .styles{position:absolute;left:10px;bottom:10px;background:rgba(15,14,12,.74);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:var(--text);font-size:11px;font-weight:500;letter-spacing:.02em;padding:4px 9px;border-radius:999px;display:inline-flex;gap:5px;align-items:center}
+  .styles{position:absolute;left:10px;bottom:10px;background:var(--accent);color:#1b140a;font-size:11.5px;font-weight:700;letter-spacing:.03em;padding:5px 10px;box-shadow:0 4px 14px rgba(0,0,0,.4);border-radius:999px;display:inline-flex;gap:5px;align-items:center}
   .styles svg{width:12px;height:12px}
   .favmark{position:absolute;top:10px;left:10px;width:24px;height:24px;border-radius:50%;background:rgba(15,14,12,.7);display:grid;place-items:center}
   .favmark svg{width:13px;height:13px;fill:#e08e7b}
@@ -107,9 +107,17 @@
   .totop svg{width:20px;height:20px}
 
   /* viewer: styles dots + favorite */
+  .ref .vn{font-family:Inter,system-ui,sans-serif;font-size:12px;font-weight:500;color:var(--accent);white-space:nowrap}
   .v-dots{display:flex;justify-content:center;align-items:center;gap:6px;margin-top:8px;min-height:14px;font-size:11px;color:var(--muted)}
-  .v-dots button{width:8px;height:8px;border-radius:50%;border:0;padding:0;background:#4a433b}
-  .v-dots button[aria-current="true"]{background:var(--accent);width:18px;border-radius:5px}
+  .v-dots{flex-direction:column;gap:6px}
+  .strip{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;max-width:min(92vw,640px);padding:3px 3px 2px}
+  .strip::-webkit-scrollbar{display:none}
+  .strip button{flex:none;width:34px;aspect-ratio:1320/2868;border-radius:6px;border:0;padding:0;overflow:hidden;opacity:.55;outline:2px solid transparent;outline-offset:1px;transition:opacity .2s,outline-color .2s,transform .2s;background:#222}
+  .strip button img{width:100%;height:100%;object-fit:cover;display:block}
+  .strip button:hover{opacity:.9;transform:translateY(-2px)}
+  .strip button[aria-current="true"]{opacity:1;outline-color:var(--accent)}
+  .viewer.multi .v-stage{height:min(62vh,760px)}
+  @media (max-width:640px){.viewer.multi .v-stage{height:min(54vh,620px)}.strip button{width:30px}}
   .btn.heart svg{fill:none;stroke:currentColor}
   .btn.heart[aria-pressed="true"]{color:#e08e7b;border-color:#6b3b31}
   .btn.heart[aria-pressed="true"] svg{fill:#e08e7b;stroke:#e08e7b}
@@ -448,7 +456,7 @@
           ${g.items.some(x => favs.has(x.id)) ? `<span class="favmark" aria-label="In your favorites">${HEART}</span>` : ''}
           ${newBadge(g)}
         </div>
-        <div class="meta"><span class="ref">${esc(g.ref)}</span>${countHTML(g.total)}</div>
+        <div class="meta"><span class="ref">${esc(g.ref)}${n > 1 ? ` <span class="vn">· ${n} styles</span>` : ''}</span>${countHTML(g.total)}</div>
       </button>`;
     }).join('');
     grid.querySelectorAll('img').forEach(img => { if (img.complete) img.classList.add('loaded'); });
@@ -650,13 +658,41 @@
     if (blob) setTimeout(() => URL.revokeObjectURL(a.href), 4000);
   };
 
+  /* ---------- desktop: hovering a stacked card cycles through its styles ---------- */
+  if (matchMedia('(hover: hover) and (pointer: fine)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    let hovTimer = null, hovCard = null;
+    const stop = () => {
+      clearInterval(hovTimer); hovTimer = null;
+      if (hovCard) { const g = groups[+hovCard.dataset.g], img = hovCard.querySelector('.frame img'); if (g && img) img.src = g.items[0].thumb; }
+      hovCard = null;
+    };
+    grid.addEventListener('mouseover', e => {
+      const c = e.target.closest('.card.stack'); if (!c || c === hovCard) return;
+      stop(); hovCard = c;
+      const g = groups[+c.dataset.g], img = c.querySelector('.frame img'); if (!g || !img) return;
+      g.items.forEach(x => { const i = new Image(); i.src = x.thumb; });
+      let k = 0;
+      hovTimer = setInterval(() => {
+        k = (k + 1) % g.items.length;
+        img.style.transition = 'opacity .18s'; img.style.opacity = '.35';
+        setTimeout(() => { img.src = g.items[k].thumb; img.style.opacity = '1'; }, 180);
+      }, 1100);
+    });
+    grid.addEventListener('mouseout', e => {
+      if (hovCard && !hovCard.contains(e.relatedTarget)) stop();
+    });
+  }
+
   /* ---------- viewer: styles of this verse + favorite ---------- */
   function setDots(w) {
     const g = groups.find(g => g.items.includes(w));
-    if (!g || g.items.length < 2) { $('vDots').innerHTML = ''; return; }
+    const multi = g && g.items.length > 1;
+    viewer.classList.toggle('multi', !!multi);
+    if (!multi) { $('vDots').innerHTML = ''; return; }
     const k = g.items.indexOf(w);
-    $('vDots').innerHTML = g.items.map((x, j) => `<button data-id="${x.id}" aria-label="Style ${j + 1}" aria-current="${j === k}"></button>`).join('')
-      + `<span style="margin-left:6px">Style ${k + 1} of ${g.items.length}</span>`;
+    $('vDots').innerHTML = `<div class="strip">` + g.items.map((x, j) => `<button data-id="${x.id}" aria-label="${esc(x.style || 'Style ' + (j + 1))}" title="${esc(x.style || '')}" aria-current="${j === k}"><img src="${x.thumb}" alt="" loading="lazy"></button>`).join('')
+      + `</div><span>${esc(w.style || '')} · ${k + 1} of ${g.items.length} styles</span>`;
+    $('vDots').querySelector('[aria-current="true"]')?.scrollIntoView({block: 'nearest', inline: 'center'});
   }
   $('vDots').addEventListener('click', e => {
     const b = e.target.closest('button[data-id]'); if (!b) return;

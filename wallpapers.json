@@ -14,6 +14,20 @@
     "thumb": "thumbs/1-peter-5-7--film.webp"
   },
   {
+    "id": "1-peter-5-7--golden-hour--2",
+    "ref": "1 Peter 5:7",
+    "style": "Golden Hour",
+    "text": "Cast all your anxiety on Him because He cares for you.",
+    "added": "2026-09-28",
+    "featured": false,
+    "themes": [
+      "Peace",
+      "Comfort"
+    ],
+    "full": "full/1-peter-5-7--golden-hour--2.jpg",
+    "thumb": "thumbs/1-peter-5-7--golden-hour--2.webp"
+  },
+  {
     "id": "1-peter-5-7--mid-century",
     "ref": "1 Peter 5:7",
     "style": "Mid-Century",
@@ -80,6 +94,20 @@
     ],
     "full": "full/deuteronomy-31-8--ink-wash.jpg",
     "thumb": "thumbs/deuteronomy-31-8--ink-wash.webp"
+  },
+  {
+    "id": "ecclesiastes-3-11--film",
+    "ref": "Ecclesiastes 3:11",
+    "style": "Film",
+    "text": "He makes all things beautiful in their time.",
+    "added": "2026-09-28",
+    "featured": false,
+    "themes": [
+      "Hope",
+      "Trust"
+    ],
+    "full": "full/ecclesiastes-3-11--film.jpg",
+    "thumb": "thumbs/ecclesiastes-3-11--film.webp"
   },
   {
     "id": "hebrews-12-1-2--grunge",
@@ -199,6 +227,19 @@
     ],
     "full": "full/matthew-6-33--autumn.jpg",
     "thumb": "thumbs/matthew-6-33--autumn.webp"
+  },
+  {
+    "id": "matthew-6-33--still-life",
+    "ref": "Matthew 6:33",
+    "style": "Still Life",
+    "text": "Seek first the kingdom of God and his righteousness, and all these things will be added to you.",
+    "added": "2026-09-28",
+    "featured": false,
+    "themes": [
+      "Faith"
+    ],
+    "full": "full/matthew-6-33--still-life.jpg",
+    "thumb": "thumbs/matthew-6-33--still-life.webp"
   },
   {
     "id": "micah-6-8--screen-print",
