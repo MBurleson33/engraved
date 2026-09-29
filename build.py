@@ -60,7 +60,7 @@ def pretty_ref(slug: str) -> str:
 
 
 def pretty_style(slug: str) -> str:
-    special = {"ukiyo-e": "Ukiyo-e", "mid-century": "Mid-Century"}
+    special = {"ukiyo-e": "Ukiyo-e", "mid-century": "Mid-Century", "paper-cut": "Paper Cut"}
     if slug in special:
         return special[slug]
     return " ".join(w.capitalize() for w in slug.split("-"))

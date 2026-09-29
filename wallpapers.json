@@ -14,6 +14,20 @@
     "thumb": "thumbs/1-peter-5-7--film.webp"
   },
   {
+    "id": "1-peter-5-7--mid-century",
+    "ref": "1 Peter 5:7",
+    "style": "Mid-Century",
+    "text": "Cast all your anxiety on Him because He cares for you.",
+    "added": "2026-09-28",
+    "featured": false,
+    "themes": [
+      "Peace",
+      "Comfort"
+    ],
+    "full": "full/1-peter-5-7--mid-century.jpg",
+    "thumb": "thumbs/1-peter-5-7--mid-century.webp"
+  },
+  {
     "id": "1-thessalonians-5-18--autumn",
     "ref": "1 Thessalonians 5:18",
     "style": "Autumn",
@@ -25,6 +39,61 @@
     ],
     "full": "full/1-thessalonians-5-18--autumn.jpg",
     "thumb": "thumbs/1-thessalonians-5-18--autumn.webp"
+  },
+  {
+    "id": "colossians-3-2--synthwave",
+    "ref": "Colossians 3:2",
+    "style": "Synthwave",
+    "text": "Set your minds on things above, not on earthly things.",
+    "added": "2026-09-28",
+    "featured": false,
+    "themes": [
+      "Faith"
+    ],
+    "full": "full/colossians-3-2--synthwave.jpg",
+    "thumb": "thumbs/colossians-3-2--synthwave.webp"
+  },
+  {
+    "id": "deuteronomy-31-6--film",
+    "ref": "Deuteronomy 31:6",
+    "style": "Film",
+    "text": "You are never alone. The Lord your God goes with you.",
+    "added": "2026-09-28",
+    "featured": false,
+    "themes": [
+      "Comfort",
+      "Strength"
+    ],
+    "full": "full/deuteronomy-31-6--film.jpg",
+    "thumb": "thumbs/deuteronomy-31-6--film.webp"
+  },
+  {
+    "id": "deuteronomy-31-8--ink-wash",
+    "ref": "Deuteronomy 31:8",
+    "style": "Ink Wash",
+    "text": "The Lord goes before you and will be with you.",
+    "added": "2026-09-28",
+    "featured": false,
+    "themes": [
+      "Comfort",
+      "Trust"
+    ],
+    "full": "full/deuteronomy-31-8--ink-wash.jpg",
+    "thumb": "thumbs/deuteronomy-31-8--ink-wash.webp"
+  },
+  {
+    "id": "hebrews-12-1-2--grunge",
+    "ref": "Hebrews 12:1-2",
+    "style": "Grunge",
+    "text": "Let us run with endurance the race that is set before us, fixing our eyes on Jesus.",
+    "added": "2026-09-28",
+    "featured": false,
+    "themes": [
+      "Faith",
+      "Strength"
+    ],
+    "full": "full/hebrews-12-1-2--grunge.jpg",
+    "thumb": "thumbs/hebrews-12-1-2--grunge.webp"
   },
   {
     "id": "isaiah-40-31--painterly",
@@ -41,6 +110,19 @@
     "thumb": "thumbs/isaiah-40-31--painterly.webp"
   },
   {
+    "id": "isaiah-43-19--grunge",
+    "ref": "Isaiah 43:19",
+    "style": "Grunge",
+    "text": "See, I am doing a new thing! Now it springs up; do you not perceive it? I am making a way in the wilderness and streams in the wasteland.",
+    "added": "2026-09-28",
+    "featured": false,
+    "themes": [
+      "Hope"
+    ],
+    "full": "full/isaiah-43-19--grunge.jpg",
+    "thumb": "thumbs/isaiah-43-19--grunge.webp"
+  },
+  {
     "id": "jeremiah-29-11--surreal",
     "ref": "Jeremiah 29:11",
     "style": "Surreal",
@@ -54,6 +136,58 @@
     "thumb": "thumbs/jeremiah-29-11--surreal.webp"
   },
   {
+    "id": "jeremiah-29-11--vintage-travel",
+    "ref": "Jeremiah 29:11",
+    "style": "Vintage Travel",
+    "text": "For I know the plans I have for you, declares the Lord, plans to give you hope and a future.",
+    "added": "2026-09-28",
+    "featured": false,
+    "themes": [
+      "Hope"
+    ],
+    "full": "full/jeremiah-29-11--vintage-travel.jpg",
+    "thumb": "thumbs/jeremiah-29-11--vintage-travel.webp"
+  },
+  {
+    "id": "joshua-1-9--comic-book",
+    "ref": "Joshua 1:9",
+    "style": "Comic Book",
+    "text": "Be strong and courageous. Do not be afraid or discouraged, for the Lord your God will be with you wherever you go.",
+    "added": "2026-09-28",
+    "featured": false,
+    "themes": [
+      "Strength"
+    ],
+    "full": "full/joshua-1-9--comic-book.jpg",
+    "thumb": "thumbs/joshua-1-9--comic-book.webp"
+  },
+  {
+    "id": "matthew-5-16--cinematic",
+    "ref": "Matthew 5:16",
+    "style": "Cinematic",
+    "text": "Let your light shine before others, that they may see your good works and give glory to your Father who is in heaven.",
+    "added": "2026-09-28",
+    "featured": false,
+    "themes": [
+      "Light"
+    ],
+    "full": "full/matthew-5-16--cinematic.jpg",
+    "thumb": "thumbs/matthew-5-16--cinematic.webp"
+  },
+  {
+    "id": "matthew-5-16--paper-cut",
+    "ref": "Matthew 5:16",
+    "style": "Paper Cut",
+    "text": "Let your light shine before others, that they may see your good works and give glory to your Father who is in heaven.",
+    "added": "2026-09-28",
+    "featured": false,
+    "themes": [
+      "Light"
+    ],
+    "full": "full/matthew-5-16--paper-cut.jpg",
+    "thumb": "thumbs/matthew-5-16--paper-cut.webp"
+  },
+  {
     "id": "matthew-6-33--autumn",
     "ref": "Matthew 6:33",
     "style": "Autumn",
@@ -65,6 +199,59 @@
     ],
     "full": "full/matthew-6-33--autumn.jpg",
     "thumb": "thumbs/matthew-6-33--autumn.webp"
+  },
+  {
+    "id": "micah-6-8--screen-print",
+    "ref": "Micah 6:8",
+    "style": "Screen Print",
+    "text": "Do justice, love mercy, walk humbly with your God.",
+    "added": "2026-09-28",
+    "featured": false,
+    "themes": [
+      "Faith"
+    ],
+    "full": "full/micah-6-8--screen-print.jpg",
+    "thumb": "thumbs/micah-6-8--screen-print.webp"
+  },
+  {
+    "id": "nehemiah-8-10--scrapbook",
+    "ref": "Nehemiah 8:10",
+    "style": "Scrapbook",
+    "text": "The joy of the Lord is my strength.",
+    "added": "2026-09-28",
+    "featured": false,
+    "themes": [
+      "Joy & Praise",
+      "Strength"
+    ],
+    "full": "full/nehemiah-8-10--scrapbook.jpg",
+    "thumb": "thumbs/nehemiah-8-10--scrapbook.webp"
+  },
+  {
+    "id": "proverbs-3-5--synthwave",
+    "ref": "Proverbs 3:5",
+    "style": "Synthwave",
+    "text": "Trust the Lord with all your heart and lean not on your own understanding.",
+    "added": "2026-09-28",
+    "featured": false,
+    "themes": [
+      "Trust"
+    ],
+    "full": "full/proverbs-3-5--synthwave.jpg",
+    "thumb": "thumbs/proverbs-3-5--synthwave.webp"
+  },
+  {
+    "id": "psalm-119-105--tattoo-flash",
+    "ref": "Psalm 119:105",
+    "style": "Tattoo Flash",
+    "text": "Your word is a lamp to my feet and a light to my path.",
+    "added": "2026-09-28",
+    "featured": false,
+    "themes": [
+      "Light"
+    ],
+    "full": "full/psalm-119-105--tattoo-flash.jpg",
+    "thumb": "thumbs/psalm-119-105--tattoo-flash.webp"
   },
   {
     "id": "psalm-28-7--painterly",
@@ -92,6 +279,32 @@
     ],
     "full": "full/psalm-29-11--golden-hour.jpg",
     "thumb": "thumbs/psalm-29-11--golden-hour.webp"
+  },
+  {
+    "id": "psalm-46-10--miniature",
+    "ref": "Psalm 46:10",
+    "style": "Miniature",
+    "text": "Be still and know that I am God.",
+    "added": "2026-09-28",
+    "featured": false,
+    "themes": [
+      "Peace"
+    ],
+    "full": "full/psalm-46-10--miniature.jpg",
+    "thumb": "thumbs/psalm-46-10--miniature.webp"
+  },
+  {
+    "id": "romans-12-2--punk",
+    "ref": "Romans 12:2",
+    "style": "Punk",
+    "text": "Do not conform to this world, but be transformed by the renewal of your mind.",
+    "added": "2026-09-28",
+    "featured": false,
+    "themes": [
+      "Faith"
+    ],
+    "full": "full/romans-12-2--punk.jpg",
+    "thumb": "thumbs/romans-12-2--punk.webp"
   },
   {
     "id": "1-peter-5-7--golden-hour",
