@@ -1,5 +1,112 @@
 [
   {
+    "id": "exodus-14-14--autumn",
+    "ref": "Exodus 14:14",
+    "style": "Autumn",
+    "text": "The Lord will fight for you; you need only to be still.",
+    "added": "2026-10-25",
+    "featured": false,
+    "themes": [
+      "Peace",
+      "Strength"
+    ],
+    "full": "full/exodus-14-14--autumn.jpg",
+    "thumb": "thumbs/exodus-14-14--autumn.webp"
+  },
+  {
+    "id": "lamentations-3-22--autumn",
+    "ref": "Lamentations 3:22",
+    "style": "Autumn",
+    "text": "The steadfast love of the Lord never ceases; His mercies never come to an end.",
+    "added": "2026-10-25",
+    "featured": false,
+    "themes": [
+      "Hope",
+      "Grace"
+    ],
+    "full": "full/lamentations-3-22--autumn.jpg",
+    "thumb": "thumbs/lamentations-3-22--autumn.webp"
+  },
+  {
+    "id": "proverbs-3-6--art-nouveau",
+    "ref": "Proverbs 3:6",
+    "style": "Art Nouveau",
+    "text": "In all your ways acknowledge Him, and He will make your paths straight.",
+    "added": "2026-10-25",
+    "featured": false,
+    "themes": [
+      "Trust"
+    ],
+    "full": "full/proverbs-3-6--art-nouveau.jpg",
+    "thumb": "thumbs/proverbs-3-6--art-nouveau.webp"
+  },
+  {
+    "id": "psalm-107-1--autumn",
+    "ref": "Psalm 107:1",
+    "style": "Autumn",
+    "text": "Give thanks to the Lord, for He is good; His love endures forever.",
+    "added": "2026-10-25",
+    "featured": false,
+    "themes": [
+      "Joy & Praise"
+    ],
+    "full": "full/psalm-107-1--autumn.jpg",
+    "thumb": "thumbs/psalm-107-1--autumn.webp"
+  },
+  {
+    "id": "psalm-107-1--painterly",
+    "ref": "Psalm 107:1",
+    "style": "Painterly",
+    "text": "Give thanks to the Lord, for He is good; His love endures forever.",
+    "added": "2026-10-25",
+    "featured": false,
+    "themes": [
+      "Joy & Praise"
+    ],
+    "full": "full/psalm-107-1--painterly.jpg",
+    "thumb": "thumbs/psalm-107-1--painterly.webp"
+  },
+  {
+    "id": "psalm-119-105--autumn",
+    "ref": "Psalm 119:105",
+    "style": "Autumn",
+    "text": "Your word is a lamp to my feet and a light to my path.",
+    "added": "2026-10-25",
+    "featured": false,
+    "themes": [
+      "Light"
+    ],
+    "full": "full/psalm-119-105--autumn.jpg",
+    "thumb": "thumbs/psalm-119-105--autumn.webp"
+  },
+  {
+    "id": "psalm-28-7--autumn",
+    "ref": "Psalm 28:7",
+    "style": "Autumn",
+    "text": "The Lord is my strength and my shield; my heart trusts in Him, and I am helped.",
+    "added": "2026-10-25",
+    "featured": false,
+    "themes": [
+      "Strength",
+      "Trust"
+    ],
+    "full": "full/psalm-28-7--autumn.jpg",
+    "thumb": "thumbs/psalm-28-7--autumn.webp"
+  },
+  {
+    "id": "psalm-46-10--autumn",
+    "ref": "Psalm 46:10",
+    "style": "Autumn",
+    "text": "Be still and know that I am God.",
+    "added": "2026-10-25",
+    "featured": false,
+    "themes": [
+      "Peace"
+    ],
+    "full": "full/psalm-46-10--autumn.jpg",
+    "thumb": "thumbs/psalm-46-10--autumn.webp"
+  },
+  {
     "id": "1-peter-5-7--film",
     "ref": "1 Peter 5:7",
     "style": "Film",
