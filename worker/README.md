@@ -31,3 +31,9 @@ If you later move the site to a custom domain, update `SITE` at the top of `work
 5. **Site:** put the Turnstile **Site Key** in `TURNSTILE_SITEKEY` in `index.html`.
 
 Review comments at `/engraved/admin.html` using your `ADMIN_KEY`.
+
+## Email alerts for new comments (optional)
+
+1. In Formspree, create a new form (e.g. "Engraved comments") with your email. Copy its URL, like `https://formspree.io/f/abcdwxyz`.
+2. Worker → Settings → Variables and Secrets → Add → type **Text** → name `NOTIFY_URL`, value = that URL.
+3. Paste the latest `worker.js` into the Worker and Deploy.

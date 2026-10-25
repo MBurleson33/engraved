@@ -11,6 +11,7 @@
  * Secrets to set on the Worker (Settings -> Variables and Secrets, type "Secret"):
  *   TURNSTILE_SECRET  — from your Cloudflare Turnstile widget
  *   ADMIN_KEY         — any long random string; it unlocks admin.html
+ *   NOTIFY_URL        — (optional) a Formspree form URL; you get an email for each new comment
  *
  * Privacy: saves store only wallpaper id, approximate city and time. Comments store
  * the name/text people type plus a one-way hash of their IP (used only for the
@@ -102,6 +103,7 @@ export default {
         const recent = await env.DB.prepare('SELECT COUNT(*) AS n FROM comments WHERE iph = ?1 AND ts > ?2').bind(iph, now - 36e5).first();
         if (recent && recent.n >= MAX_COMMENTS_PER_HOUR) return json({ ok: false, error: 'You’ve posted a few already. Please try again later.' }, 429, cors);
         await env.DB.prepare("INSERT INTO comments (id, name, body, ts, status, iph) VALUES (?1, ?2, ?3, ?4, 'pending', ?5)").bind(b.id, name, body, now, iph).run();
+        if (env.NOTIFY_URL) ctx.waitUntil(notify(env, b.id, name, body));
         // forget IP hashes after 2 days
         if (Math.random() < 0.1) ctx.waitUntil(env.DB.prepare('UPDATE comments SET iph = NULL WHERE ts < ?1 AND iph IS NOT NULL').bind(now - 2 * 864e5).run());
         return json({ ok: true, pending: true }, 200, cors);
@@ -161,6 +163,26 @@ async function turnstileOK(token, ip, env) {
   if (ip) form.append('remoteip', ip);
   const r = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', { method: 'POST', body: form }).then(r => r.json()).catch(() => ({}));
   return r.success === true;
+}
+// Email alert via Formspree: one email per new comment, with a link to the admin page.
+async function notify(env, id, name, body) {
+  try {
+    const p = await env.DB.prepare("SELECT COUNT(*) AS n FROM comments WHERE status = 'pending'").first();
+    const waiting = p ? p.n : 1;
+    await fetch(env.NOTIFY_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        _subject: `New Engraved comment (${waiting} waiting)`,
+        wallpaper: id,
+        name,
+        comment: body,
+        waiting_for_review: waiting,
+        review: SITE + '/engraved/admin.html',
+        view: SITE + '/engraved/#' + id,
+      }),
+    });
+  } catch {}
 }
 async function sha(s) {
   const d = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
